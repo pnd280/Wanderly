@@ -1,0 +1,51 @@
+.footer {
+  padding: 3rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--color-dark);
+}
+.footer__logo img {
+  width: 10rem;
+}
+.footer__brand-name {
+  text-align: center;
+  color: white;
+  text-transform: uppercase;
+  font-size: 1.8rem;
+  font-weight: 700;
+  background-image: linear-gradient(to right, var(--color-primary-light), var(--color-primary-dark));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.footer__nav, .footer__social {
+  display: flex;
+  justify-content: center;
+}
+.footer__links {
+  margin-top: 5rem;
+  padding: 0 1rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+.footer__links::before {
+  content: "";
+  position: absolute;
+  padding: 0 1rem;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-white);
+}
+.footer__legal {
+  margin-top: 3rem;
+  color: var(--color-white);
+  font-size: 1rem;
+}
+.footer__legal a {
+  color: inherit;
+}

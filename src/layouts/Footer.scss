@@ -1,0 +1,80 @@
+.footer {
+  padding: 3rem 0;
+
+  display       : flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  background-color: var(--color-dark);
+
+  &__logo {
+
+    & img {
+      width: 10rem;
+    }
+  }
+
+  &__brand-name {
+    text-align: center;
+
+    color         : white;
+    text-transform: uppercase;
+
+    font-size  : 1.8rem;
+    font-weight: 700;
+
+    background-image       : linear-gradient(to right, var(--color-primary-light), var(--color-primary-dark));
+    background-clip        : text;
+    -webkit-background-clip: text;
+    color                  : transparent;
+  }
+
+  &__nav,
+  &__social {
+    display        : flex;
+    justify-content: center;
+  }
+
+  &__links {
+    margin-top: 5rem;
+
+    padding: 0 1rem;
+
+    width: 100%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    position: relative;
+
+    &::before {
+      content: "";
+
+      position: absolute;
+
+      padding: 0 1rem;
+
+      top : 0;
+      left: 0;
+
+      width : 100%;
+      height: 1px;
+
+      background-color: var(--color-white);
+    }
+  }
+
+  &__legal {
+    margin-top: 3rem;
+
+    color: var(--color-white);
+
+    font-size: 1rem;
+
+    & a {
+      color: inherit;
+    }
+  }
+}
