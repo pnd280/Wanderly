@@ -1,5 +1,32 @@
+.nav {
+  &__nav {
+    margin-right: 2rem;
+  }
 
+  &__list {
+    list-style: none;
 
-a {
-  text-decoration: none;
+    display: flex;
+    gap    : 2rem;
+  }
+
+  &__item {
+    font-size     : 1.2rem;
+    font-weight   : 600;
+    text-transform: uppercase;
+
+    padding: 1rem;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    transition: transform 0.2s;
+  }
+
+  &__link {
+    text-decoration: none;
+    color          : var(--color-white);
+    font-weight    : 500;
+  }
 }

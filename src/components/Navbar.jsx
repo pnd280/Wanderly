@@ -7,17 +7,17 @@ const Navbar = () => {
         <ul className="nav__list">
           <li className="nav__item">
             <a href="#" className="nav__link">
-              About Wanderly
+              About
             </a>
           </li>
           <li className="nav__item">
             <a href="#" className="nav__link">
-              Your benefits
+              Benefits
             </a>
           </li>
           <li className="nav__item">
             <a href="#" className="nav__link">
-              Popular tours
+              Tours
             </a>
           </li>
           <li className="nav__item">
@@ -27,7 +27,7 @@ const Navbar = () => {
           </li>
           <li className="nav__item">
             <a href="#" className="nav__link">
-              Book now
+              Contact
             </a>
           </li>
         </ul>

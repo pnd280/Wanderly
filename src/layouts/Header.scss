@@ -1,0 +1,35 @@
+.header {
+
+  &__nav-container {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+
+    // position: sticky;
+    // top: 0;
+  }
+
+  height: 95vh;
+
+  background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.8), rgba(40, 180, 133, 0.8)),
+  url("../../public/hero.jpg");
+  background-size: cover;
+
+  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+
+  &__logo-box {
+    display: inline-block;
+    margin : 1rem;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+
+    transition: transform 0.2s;
+  }
+
+  &__logo {
+    height: 3rem;
+  }
+
+}
