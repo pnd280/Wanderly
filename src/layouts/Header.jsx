@@ -1,5 +1,5 @@
 import Navbar from '../components/NavBar';
-import logo from '../../public/wanderly-logo-outlined.svg';
+import logo from '../assets/wanderly-logo-outlined.svg';
 import Hero from '../components/Hero';
 
 import './Header.scss';
