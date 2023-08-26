@@ -22,6 +22,7 @@
 }
 
 .btn-text {
+
   &:link,
   &:visited {
     text-decoration: none;
@@ -43,6 +44,7 @@
   letter-spacing: 0.3rem;
 
   background-image       : linear-gradient(to right, var(--color-primary-light), var(--color-primary-dark));
+  background-clip        : text;
   -webkit-background-clip: text;
   color                  : transparent;
 
@@ -59,9 +61,20 @@
   text-transform: uppercase;
   font-weight   : 700;
 }
+
 /* #endregion */
 
 /* #region  animations */
+@keyframes unveil {
+  0% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+  }
+}
+
 @keyframes moveInLeft {
   0% {
     opacity  : 0;

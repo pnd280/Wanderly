@@ -1,33 +1,44 @@
+import { useState } from 'react';
+
 import ImageContainer from '../components/ImageContainer';
 import './About.scss';
+import { useEffect } from 'react';
 
 const About = () => {
-  const images = [
-    {
-      src: './wanderly-mockup.png',
-      alt: 'about-us-1',
-      className: 'section-about__img-1',
-    },
-    {
-      src: './about-2.jpg',
-      alt: 'about-us-2',
-      className: 'section-about__img-2',
-    },
-    {
-      src: './about-3.jpg',
-      alt: 'about-us-3',
-      className: 'section-about__img-3',
-    },
-    {
-      src: './about-1.jpg',
-      alt: 'mockup',
-      className: 'section-about__img-4',
-    },
-  ];
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    const images = [
+      {
+        src: './wanderly-mockup.png',
+        alt: 'about-us-1',
+        className: 'section-about__img-1',
+      },
+      {
+        src: './about-2.jpg',
+        alt: 'about-us-2',
+        className: 'section-about__img-2',
+      },
+      {
+        src: './about-3.jpg',
+        alt: 'about-us-3',
+        className: 'section-about__img-3',
+      },
+      {
+        src: './about-1.jpg',
+        alt: 'mockup',
+        className: 'section-about__img-4',
+      },
+    ];
+
+    setImages(images);
+  }, []);
 
   return (
     <section className="section-about">
-      <h2 className="heading-secondary">Foundation</h2>
+      <h2 className="heading-secondary">
+        Foundation
+      </h2>
       <div>
         <div className="section-about__text-content">
           <div>

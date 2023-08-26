@@ -14,7 +14,7 @@
   url("../../public/hero.jpg");
   background-size: cover;
 
-  clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+  animation: unveil 1s ease-out forwards 1s;
 
   &__logo-box {
     display: inline-block;
