@@ -37,7 +37,7 @@
 
 .cta-text {
   text-decoration: none;
-  color: var(--color-grey-dark);
+  color: var(--color-black-2);
 
   position: absolute;
   right: 5rem;
@@ -45,7 +45,7 @@
 
   font-size: 2rem;
 
-  animation: puff-in-center 0.7s cubic-bezier(0.470, 0.000, 0.745, 0.715) both 2s;
+  animation: puff-in-center 0.7s cubic-bezier(0.470, 0.000, 0.745, 0.715) both 1.5s;
 
   &__pointer {
     display: inline-block;

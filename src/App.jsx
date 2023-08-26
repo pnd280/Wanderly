@@ -1,14 +1,13 @@
+import './App.scss';
 
 import Header from './layouts/Header';
-import Hero from './layouts/Hero';
-
-import './App.scss';
+import About from './layouts/About';
 
 function App() {
   return (
     <>  
       <Header/>
-      
+      <About/>
     </>
   );
 }

@@ -1,8 +1,8 @@
 import Navbar from '../components/NavBar';
 import logo from '../../public/wanderly-logo-outlined.svg';
+import Hero from '../components/Hero';
 
 import './Header.scss';
-import Hero from './Hero';
 
 const Header = () => {
   return (

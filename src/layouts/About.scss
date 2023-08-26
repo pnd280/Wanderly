@@ -1,0 +1,47 @@
+.section-about {
+  margin    : 0 5rem;
+  margin-top: 7rem;
+
+  display       : flex;
+  flex-direction: column;
+  align-items   : center;
+
+  color: var(--color-black-2);
+
+  &>div {
+    margin-top: 5rem;
+    display   : flex;
+    gap       : 5rem;
+  }
+
+  &__text-content {
+    max-width: 50%;
+
+    &>div:not(:first-of-type) {
+      margin-top: 3rem;
+    }
+
+    div>p {
+      margin-top: 1rem;
+      text-wrap : balance;
+
+      color: var(--color-grey-dark);
+    }
+
+    a {
+      display   : inline-block;
+      margin-top: 2rem;
+    }
+
+  }
+
+  &__img-gallery {
+    width: 50%;
+
+    position: relative;
+
+    &:hover .image-container:not(:hover) {
+      transform: scale(.9);
+    }
+  }
+}

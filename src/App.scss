@@ -14,6 +14,10 @@
 body {
   padding   : 1rem;
   overflow-x: hidden;
+
+  scroll-behavior: smooth;
+
+  background-color: var(--color-grey-light-1);
 }
 
 :root {
