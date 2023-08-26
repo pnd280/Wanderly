@@ -21,7 +21,6 @@ body {
 }
 
 :root {
-
   --color-primary        : #55c57a;
   --color-primary-light  : #7ed56f;
   --color-primary-dark   : #28b485;
@@ -36,7 +35,9 @@ body {
   --color-secondary-dark : #ff7730;
   --color-tertiary-light : #2998ff;
   --color-tertiary-dark  : #5643fa;
-
+  
+  --rgbcolor-primary-dark: 40, 180, 133;
+  
   --font-mono: "Recursive Mono Casual Static", sans-serif;
   --font-sans: "Recursive Sans Casual Static", sans-serif;
 
