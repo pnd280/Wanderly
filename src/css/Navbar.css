@@ -1,0 +1,23 @@
+.nav__nav {
+  margin-right: 2rem;
+}
+.nav__list {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+}
+.nav__item {
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 1rem;
+  transition: transform 0.2s;
+}
+.nav__item:hover {
+  transform: scale(1.1);
+}
+.nav__link {
+  text-decoration: none;
+  color: var(--color-white);
+  font-weight: 500;
+}

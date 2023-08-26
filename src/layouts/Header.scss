@@ -24,9 +24,9 @@
     // filter: blur(5px);
 
     background-image: linear-gradient(to right bottom, rgba(black, 0.8), rgba(var(--rgbcolor-primary-dark), 0.8)), url("../assets/hero.jpg");
-
+    background-position: center;
     
-    filter: blur(2px);
+    filter: blur(1px);
 
     background-size : cover;
 
