@@ -39,6 +39,8 @@
   margin-top: 5rem;
   text-transform: uppercase;
   font-size: 1.3rem;
+  color: var(--color-white);
+  background-color: var(--color-primary);
   transition: transform 0.2s;
   animation: moveInBottom 1s ease-out;
 }

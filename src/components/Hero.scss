@@ -59,6 +59,9 @@
 
     font-size: 1.3rem;
 
+    color: var(--color-white);
+    background-color: var(--color-primary);
+
     &:hover {
       transform: scale(1.1);
     }
