@@ -37,12 +37,12 @@ const About = () => {
   return (
     <section className="section-about">
       <h2 className="heading-secondary">
-        Foundation
+        Our foundation
       </h2>
       <div>
         <div className="section-about__text-content">
           <div>
-            <h3 className="heading-tertiary">Our Story</h3>
+            <h3 className="heading-tertiary">Discovering the World with Wanderly</h3>
             <p>
               Wanderly was founded in 2020 by a group of passionate travelers
               who wanted to create unforgettable experiences for fellow
@@ -52,7 +52,7 @@ const About = () => {
             </p>
           </div>
           <div>
-            <h3 className="heading-tertiary">Our Mission</h3>
+            <h3 className="heading-tertiary">Personalized Journeys for Cultural Connections & Lasting Memories</h3>
             <p>
               At Wanderly, our mission is to provide unique, personalized travel
               experiences that cater to your interests and preferences. We
