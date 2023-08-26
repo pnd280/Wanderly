@@ -1,5 +1,4 @@
 .header {
-
   &__nav-container {
     display        : flex;
     justify-content: space-between;
@@ -26,10 +25,30 @@
     }
 
     transition: transform 0.2s;
+
+    -webkit-animation: puff-in-center 0.7s cubic-bezier(0.470, 0.000, 0.745, 0.715) both;
+    animation        : puff-in-center 0.7s cubic-bezier(0.470, 0.000, 0.745, 0.715) both;
   }
 
   &__logo {
     height: 3rem;
   }
+}
 
+.cta-text {
+  text-decoration: none;
+  color: var(--color-grey-dark);
+
+  position: absolute;
+  right: 5rem;
+  bottom: 5rem;
+
+  font-size: 2rem;
+
+  animation: puff-in-center 0.7s cubic-bezier(0.470, 0.000, 0.745, 0.715) both 2s;
+
+  &__pointer {
+    display: inline-block;
+    animation: slightDown 1s infinite ease-in-out alternate;
+  }
 }
