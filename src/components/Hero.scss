@@ -16,14 +16,20 @@
 
     letter-spacing: 1rem;
 
-    background-image: linear-gradient(0deg, hsla(111, 55%, 64%, 1) 18%, hsla(160, 64%, 43%, 1) 100%);
-    background-clip: text;
+    background-image       : linear-gradient(0deg, hsla(111, 55%, 64%, 1) 18%, hsla(160, 64%, 43%, 1) 100%);
+    background-clip        : text;
     -webkit-background-clip: text;
-    color: transparent;
+    color                  : transparent;
 
     animation: moveInLeft 1s ease-out;
 
     margin-bottom: 1rem;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+
+    transition: transform .4s;
   }
 
   &__subtitle {
@@ -36,14 +42,20 @@
     letter-spacing: 0.58rem;
 
     animation: moveInRight 1s ease-out;
+
+    &:hover {
+      letter-spacing: 0.7rem;
+    }
+
+    transition: letter-spacing .4s;
   }
 
   &__cta-button {
     display: inline-block;
-    
+
     margin-top: 5rem;
 
-    text-transform : uppercase;
+    text-transform: uppercase;
 
     font-size: 1.3rem;
 

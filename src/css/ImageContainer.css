@@ -4,7 +4,7 @@
   overflow: hidden;
   position: absolute;
   box-shadow: 0 0 4rem rgba(0, 0, 0, 0.4);
-  border-radius: 0.2rem;
+  border-radius: 0.375rem;
   border-radius: 0.375rem;
   transition: transform 0.5s, box-shadow 0.5s, z-index 0.5s;
 }
