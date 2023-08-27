@@ -31,7 +31,11 @@
       transform: scale(1.2);
     }
 
-    transition: transform .4s;
+    transition: transform .4s, font-size .4s;
+
+    @media only screen and (max-width: 730px) {
+      font-size  : 5rem;
+    }
   }
 
   &__subtitle {
@@ -43,14 +47,18 @@
 
     letter-spacing: 0.58rem;
 
-    -webkit-animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
-    animation        : tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+    -webkit-animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    animation        : tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000);
 
     &:hover {
       letter-spacing: 0.7rem;
     }
 
-    transition: letter-spacing .4s;
+    transition: all .4s;
+
+    @media only screen and (max-width: 730px) {
+      font-size  : .9rem;
+    }
   }
 
   &__cta-button {

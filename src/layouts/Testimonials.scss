@@ -9,6 +9,10 @@
 
   position: relative;
 
+  & h2 {
+    text-align: center;
+  }
+
   &::before {
     content: "";
 

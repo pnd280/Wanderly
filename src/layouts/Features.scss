@@ -27,6 +27,12 @@
 
   clip-path: polygon(0 25vh, 100% 0, 100% 75vh, 0 100%);
 
+  transition: clip-path .4s;
+
+  @media screen and (max-width: 1300px) {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  }
+
   &__feature-container {
 
     min-width: 80vw;
@@ -36,20 +42,32 @@
     left     : 50%;
     transform: translate(-50%, -50%);
 
-    display: flex;
+    display        : flex;
+    flex-direction : row;
+    justify-content: center;
 
-    // shrink?
+    flex-wrap: wrap;
+
+    // shrink height?
     // align-items: start;
 
     gap: 2rem;
+
   }
 
   &__feature-box {
+
+    flex-shrink: 0;
+
+    flex: 1;
+
     display       : flex;
     flex-direction: column;
     align-items   : center;
     text-align    : center;
 
+    min-width: 15rem;
+    max-width: 15rem;
 
     background-color: var(--color-white);
     opacity         : .8;
@@ -60,14 +78,15 @@
     border-radius: .375rem;
 
     &:hover {
-      transform: translateY(-.5rem) scale(1.1);
+      transform : translateY(-.5rem) scale(1.1);
       box-shadow: 0 0 5rem rgba(var(--rgbcolor-primary), .5);
     }
 
-    transition: transform .5s, box-shadow .5s;
+    transition: transform .5s,
+    box-shadow .5s;
 
     &__icon {
-      font-size                    : 3.5rem;
+      font-size: 3.5rem;
 
       // TODO: change to font icon for gradient icon
       // color                     : linear-gradient(0deg, hsla(111, 55%, 64%, 1) 18%, hsla(160, 64%, 43%, 1) 100%);

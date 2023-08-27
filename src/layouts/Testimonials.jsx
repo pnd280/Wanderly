@@ -29,9 +29,9 @@ const Testimonials = () => {
 
   return (
     <section className="section-testimonials">
-      <h3 className="section-testimonials__heading heading-secondary">
+      <h2 className="section-testimonials__heading heading-secondary">
         We bring people happiness
-      </h3>
+      </h2>
       <div className="section-testimonials__testimonial-container">
         {testimonials.map((testimonial, key) => {
           return <TestimonialBox testimonial={testimonial} key={key} />;

@@ -6,12 +6,22 @@
   flex-direction: column;
   align-items   : center;
 
+
+
   color: var(--color-black);
 
   &>div {
     margin-top: 5rem;
     display   : flex;
     gap       : 5rem;
+
+    @media only screen and (max-width: 940px) {
+      flex-direction: column;
+    }
+  }
+
+  & h2 {
+    text-align: center;
   }
 
   &__text-content {
@@ -28,9 +38,6 @@
     div>p {
       margin-top: 1rem;
 
-      // isnt fully supported
-      // text-wrap : balance;
-
       color: var(--color-black);
 
       text-align: justify;
@@ -43,18 +50,32 @@
       align-self: flex-end;
     }
 
+    @media only screen and (max-width: 940px) {
+      width: 100%;
+    }
   }
 
   &__img-gallery {
     width: 50%;
+
 
     position: relative;
 
     &:hover .image-container:not(:hover) {
       transform: scale(.9);
     }
+
+    @media only screen and (max-width: 940px) {
+      width: 100%;
+
+      display: flex;
+
+      gap: 1rem;
+    }
   }
 }
+
+
 
 .image-container {
   &:hover {
@@ -81,5 +102,14 @@
   &:nth-of-type(4) {
     top : 30%;
     left: 10%;
+  }
+
+  
+}
+
+@media only screen and (max-width: 940px) {
+  .image-container, .image-container:last-of-type {
+    top : 0;
+    left: 0;
   }
 }

@@ -13,6 +13,12 @@
 
   gap: 2rem;
 
+  transition: max-width .4s, box-shadow .4s, background-color .4s;
+
+  @media only screen and (max-width: 1000px) {
+    max-width: 80%;
+  }
+
   &:hover .author-box img {
     filter   : blur(3px);
     transform: scale(1.1);

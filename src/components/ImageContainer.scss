@@ -5,6 +5,10 @@
 
   position: absolute;
 
+  @media only screen and (max-width: 940px) {
+    position: relative;
+  }
+
   box-shadow   : 0 0 4rem rgba(black, .4);
   border-radius: .375rem;
 
