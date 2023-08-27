@@ -12,12 +12,27 @@
 }
 
 body {
-  // padding   : 1rem;
+  scroll-behavior: smooth;
+  
+  background-color: var(--color-grey-light-1);
+
+  width: 100vw;
+
   overflow-x: hidden;
 
-  scroll-behavior: smooth;
+  & > * {
+    overflow-x: hidden;
+  }
+}
 
-  background-color: var(--color-grey-light-1);
+@font-face {
+  font-family: "Recursive Sans Casual Static";
+  src: url('./assets/fonts/Recursive_VF_1.085.woff2');
+}
+
+@font-face {
+  font-family: "Recursive Mono Casual Static";
+  src: url('./assets/fonts/Recursive_VF_1.085.woff2');
 }
 
 :root {
@@ -46,4 +61,9 @@ body {
 
   font-family: var(--font-sans);
 
+}
+
+::selection {
+  background-color: var(--color-primary);
+  color           : var(--color-white);
 }

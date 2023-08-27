@@ -30,7 +30,7 @@
     font-weight    : 500;
   }
 
-  @media only screen and (max-width: 800px) {
+  @media (max-width: 800px) {
     &__nav {
       display: none;
     }

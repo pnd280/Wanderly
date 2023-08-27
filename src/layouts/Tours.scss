@@ -9,12 +9,18 @@
 
   color: var(--color-black);
 
+  & h2 {
+    text-align: center;
+  }
+
   &>* {
     margin: 1.5rem 0;
   }
 
   &__search-box {
     display: flex;
+
+    max-width: 85%;
 
     gap: 2rem;
 
@@ -40,15 +46,21 @@
     display        : flex;
     justify-content: center;
 
-    flex-wrap: wrap;
-
     gap: 1rem;
 
-    width: 80vw;
+    width: 100%;
 
     &:hover .tour-card:not(:hover) {
       transform : scale(.9);
       box-shadow: 0 0 4rem rgba(black, .4);
+    }
+
+    @media (max-width: 640px) {
+      // width: 20rem;
+
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
     }
   }
 

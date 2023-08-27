@@ -15,7 +15,7 @@
 
       transition: transform 0.4s;
 
-      animation: spin 5s linear infinite;
+      animation       : spin 5s linear infinite;
       transform-origin: center;
     }
 
@@ -50,12 +50,30 @@
     & .socials__link {
       color: white;
 
-      &:link, &:visited {
+      &:link,
+      &:visited {
         color: white;
       }
 
       font-size: 1.5rem;
+
+      transition: transform 0.4s;
+
+      &:hover {
+        transform: scale(1.1);
+      }
     }
+  }
+
+  &__nav {
+
+    & .nav__list {
+      @media (max-width: 740px) {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+    }
+
   }
 
   &__links {

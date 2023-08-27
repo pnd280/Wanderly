@@ -36,7 +36,7 @@ const Testimonials = () => {
         {testimonials.map((testimonial, key) => {
           return <TestimonialBox testimonial={testimonial} key={key} />;
         })}
-        <div>satisfaction guaranteed by <span className="u-text-highlight">4321+</span> groups & individuals 👏🏻</div>
+        <div className="cta-text-claim">satisfaction guaranteed by <span className="u-text-highlight">4321+</span> groups & individuals 👏🏻</div>
       </div>
     </section>
   );

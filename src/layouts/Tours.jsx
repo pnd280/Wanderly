@@ -7,6 +7,8 @@ import './Tours.scss';
 import { useEffect } from 'react';
 import Slider from '../components/Slider';
 
+import mockData from '../mock-data.js';
+
 const Tours = () => {
   const [tours, setTours] = useState([]);
   const [displayedTours, setDisplayedTours] = useState([]);
@@ -59,15 +61,21 @@ const Tours = () => {
     // fetchTourCount();
 
     (async () => {
+      let fetchedTours = [];
+
       try {
         const response = await axios.get('http://127.0.0.1:28000/tours/all');
-        const pageCount = Math.ceil(response.data.length / 3);
-        setPageCount(pageCount);
-        setTours(response.data);
-        setDisplayedTours(response.data.slice(0, 3));
+
+        fetchedTours = response.data;
       } catch (error) {
         console.log(error);
+        fetchedTours = mockData;
       }
+
+      const pageCount = Math.ceil(fetchedTours.length / 3);
+      setPageCount(pageCount);
+      setTours(fetchedTours);
+      setDisplayedTours(fetchedTours.slice(0, 3));
     })();
   }, []);
 
@@ -79,9 +87,9 @@ const Tours = () => {
 
   return (
     <section className="section-tours">
-      <div className="heading-secondary" id="tours">
+      <h2 className="heading-secondary" id="tours">
         Guided tours
-      </div>
+      </h2>
       <div className="section-tours__search-box">
         <input
           type="text"
