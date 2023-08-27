@@ -1,6 +1,7 @@
 import { PropTypes } from 'prop-types';
 
 import './TestimonialBox.scss';
+import ParagraphWithHeading from './ParagraphWithHeading';
 
 const TestimonialBox = ({ testimonial }) => {
   return (
@@ -10,8 +11,10 @@ const TestimonialBox = ({ testimonial }) => {
         <figcaption className="author-box__name">{testimonial.name}</figcaption>
       </figure>
       <div className="testimonial-box">
-        <h3 className="heading-tertiary">{testimonial.summary}</h3>
-        <p>{testimonial.quote}</p>
+        <ParagraphWithHeading
+          heading={{ content: testimonial.summary }}
+          paragraph={{ content: testimonial.quote }}
+        />
       </div>
     </div>
   );

@@ -23,7 +23,7 @@
     -webkit-background-clip: text;
     color                  : transparent;
 
-    animation: moveInLeft 1s ease-out;
+    animation: moveInTop 1s ease-out;
 
     margin-bottom: 1rem;
 
@@ -43,7 +43,8 @@
 
     letter-spacing: 0.58rem;
 
-    animation: moveInRight 1s ease-out;
+    -webkit-animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
+    animation        : tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) both;
 
     &:hover {
       letter-spacing: 0.7rem;
@@ -61,7 +62,7 @@
 
     font-size: 1.3rem;
 
-    color: var(--color-white);
+    color           : var(--color-white);
     background-color: var(--color-primary);
 
     &:hover {

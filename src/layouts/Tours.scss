@@ -53,9 +53,6 @@
   }
 
   &__pagination {
-
-    margin-bottom: 3rem;
-
     display: flex;
 
     justify-content: center;
@@ -71,4 +68,8 @@
       color: var(--color-white);
     }
   }
+}
+
+.cta-text-book {
+  font-size: 2rem;
 }

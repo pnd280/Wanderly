@@ -1,11 +1,20 @@
 import { PropTypes } from 'prop-types';
+import ParagraphWithHeading from './ParagraphWithHeading';
 
 const FeatureBox = ({ icon, title, description }) => {
   return (
     <div className="section-features__feature-box">
       <span className="section-features__feature-box__icon">{icon}</span>
-      <h3 className="section-features__feature-box__heading heading-tertiary">{title}</h3>
-      <p className="section-features__feature-box__text">{description}</p>
+      <ParagraphWithHeading
+        heading={{
+          content: title,
+          className: 'section-features__feature-box__heading',
+        }}
+        paragraph={{
+          content: description,
+          className: 'section-features__feature-box__text',
+        }}
+      />
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import ImageContainer from '../components/ImageContainer';
 import './About.scss';
 import { useEffect } from 'react';
+import ParagraphWithHeading from '../components/ParagraphWithHeading';
 
 const About = () => {
   const [images, setImages] = useState([]);
@@ -52,28 +53,25 @@ const About = () => {
         </div>
         <div className="section-about__text-content">
           <div>
-            <h3 className="heading-tertiary">
-              Discovering the World with Wanderly
-            </h3>
-            <p>
-              Wanderly was founded in 2020 by a group of passionate travelers
-              who wanted to create unforgettable experiences for fellow
-              adventurers. Our team has explored the world&apos;s most stunning
-              destinations, and we&apos;re excited to share our knowledge and
-              expertise with you.
-            </p>
+            <ParagraphWithHeading
+              heading={{ content: 'Discovering the World with Wanderly' }}
+              paragraph={{
+                content:
+                  "Wanderly was founded in 2020 by a group of passionate travelers who wanted to create unforgettable experiences for fellow adventurers. Our team has explored the world's most stunning destinations, and we're excited to share our knowledge and expertise with you.",
+              }}
+            />
           </div>
           <div>
-            <h3 className="heading-tertiary">
-              Personalized Journeys for Cultural Connections & Lasting Memories
-            </h3>
-            <p>
-              At Wanderly, our mission is to provide unique, personalized travel
-              experiences that cater to your interests and preferences. We
-              believe that travel is more than just visiting new
-              places—it&apos;s about creating lasting memories and connections
-              with the people and cultures you encounter.
-            </p>
+            <ParagraphWithHeading
+              heading={{
+                content:
+                  'Personalized Journeys for Cultural Connections & Lasting Memories',
+              }}
+              paragraph={{
+                content:
+                  "At Wanderly, our mission is to provide unique, personalized travel experiences that cater to your interests and preferences. We believe that travel is more than just visiting new places—it's about creating lasting memories and connections with the people and cultures you encounter.",
+              }}
+            />
           </div>
           <a href="#" className="btn-text">
             Learn more

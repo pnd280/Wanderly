@@ -2,9 +2,9 @@ import { PropTypes } from 'prop-types';
 
 import './TourCard.scss';
 
-const TourCard = ({ key, tour, priceToggle }) => {
+const TourCard = ({ tour, priceToggle }) => {
   return (
-    <div className={'tour-card'} key={key}>
+    <div className={'tour-card'}>
       <div className="tour-card__heading">
         <div className="tour-card__img">
           <img
@@ -28,7 +28,7 @@ const TourCard = ({ key, tour, priceToggle }) => {
               {tour.details.guides > 1 ? 's' : null}
             </li>
             <li className="tour-card__list-item">
-              {tour.details.accomodations}
+              {tour.details.accommodations}
             </li>
             <li className="tour-card__list-item">
               {tour.details.min} - {tour.details.max} people
@@ -51,9 +51,8 @@ const TourCard = ({ key, tour, priceToggle }) => {
 };
 
 TourCard.propTypes = {
-  key: PropTypes.number.isRequired,
   tour: PropTypes.object.isRequired,
-  priceToggle: PropTypes.bool.isRequired
+  priceToggle: PropTypes.bool.isRequired,
 };
 
 export default TourCard;
