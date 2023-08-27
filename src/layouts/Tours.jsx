@@ -111,28 +111,31 @@ const Tours = () => {
 
   return (
     <section className="section-tours">
-      <div className="heading-secondary" id="tours">Guided tours</div>
+      <div className="heading-secondary" id="tours">
+        Guided tours
+      </div>
       <div className="section-tours__search-box">
         <input
           type="text"
           className="search-box__input"
-          placeholder="Looking for specific tours?"
+          placeholder="Enter a tour name..."
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);
           }}
         />
-        <Slider
-          label="Show price"
-          onClick={togglePrice}
-        />
+        <Slider label="Show price" onClick={togglePrice} />
       </div>
       <div className="section-tours__tour-container">
         {filteredTours.map((tour) => (
           <TourCard key={tour.id} tour={tour} priceToggle={priceToggle} />
         ))}
       </div>
-      <div className="section-tours__pagination">pagination goes here...</div>
+      <div className="section-tours__pagination">
+        <div className="pagination__btn btn is-active">1</div>
+        <div className="pagination__btn btn">2</div>
+        <div className="pagination__btn btn">3</div>
+      </div>
     </section>
   );
 };

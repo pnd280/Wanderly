@@ -15,8 +15,6 @@
 
   &__search-box {
     display: flex;
-    // align-items: center;
-    // justify-content: center;
 
     gap: 2rem;
 
@@ -46,15 +44,31 @@
 
     gap: 1rem;
 
-    &:hover .tour-card:not(:hover) {
+    width: 80vw;
 
+    &:hover .tour-card:not(:hover) {
       transform : scale(.9);
       box-shadow: 0 0 4rem rgba(black, .4);
     }
   }
 
-  &__pagination {}
+  &__pagination {
 
+    margin-bottom: 3rem;
 
+    display: flex;
 
+    justify-content: center;
+
+    align-items: center;
+
+    gap: .5rem;
+
+    cursor: pointer;
+
+    & .btn.is-active {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+    }
+  }
 }

@@ -6,6 +6,7 @@ import Features from './layouts/Features';
 import Tours from './layouts/Tours';
 import Testimonials from './layouts/Testimonials';
 import Footer from './layouts/Footer';
+import Book from './layouts/Book';
 
 function App() {
   return (
@@ -14,8 +15,8 @@ function App() {
       <About/>
       <Features/>
       <Tours/>
+      <Book/>
       <Testimonials/>
-
       <Footer/>
     </>
   );

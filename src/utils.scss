@@ -14,11 +14,13 @@
 
   border-radius: 0.5rem;
 
+  text-align: center;
+
   &:hover {
     transform: scale(1.1);
   }
 
-  transition: transform 0.2s;
+  transition: transform 0.2s, color 0.2s, background-color 0.2s;
 }
 
 .btn-text {
