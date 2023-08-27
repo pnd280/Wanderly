@@ -37,10 +37,11 @@
   padding: 1rem;
   box-shadow: 0 0 4rem rgba(0, 0, 0, 0.4);
   border-radius: 0.375rem;
-  transition: transform 0.5s;
+  transition: transform 0.5s, box-shadow 0.5s;
 }
 .section-features__feature-box:hover {
   transform: translateY(-0.5rem) scale(1.1);
+  box-shadow: 0 0 5rem rgba(var(--rgbcolor-primary), 0.5);
 }
 .section-features__feature-box__icon {
   font-size: 3.5rem;
@@ -50,6 +51,6 @@
   margin-top: 1rem;
 }
 .section-features__feature-box__text {
-  text-wrap: balance;
   margin-top: 0.5rem;
+  text-align: justify;
 }

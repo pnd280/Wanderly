@@ -15,7 +15,11 @@
   }
 
   &__text-content {
-    max-width: 50%;
+    width: 50%;
+
+    display: flex;
+
+    flex-direction: column;
 
     &>div:not(:first-of-type) {
       margin-top: 3rem;
@@ -23,14 +27,20 @@
 
     div>p {
       margin-top: 1rem;
-      text-wrap : balance;
+
+      // isnt fully supported
+      // text-wrap : balance;
 
       color: var(--color-black);
+
+      text-align: justify;
     }
 
     a {
       display   : inline-block;
       margin-top: 2rem;
+
+      align-self: flex-end;
     }
 
   }
@@ -49,8 +59,7 @@
 .image-container {
   &:hover {
     transform : translate(0, -.5rem) scale(1.5);
-    box-shadow: 0 0 5rem rgba(black, .5);
-    border    : 0.375rem solid var(--color-primary);
+    box-shadow: 0 0 5rem rgba(var(--rgbcolor-primary), .5);
     z-index   : 1;
   }
 
