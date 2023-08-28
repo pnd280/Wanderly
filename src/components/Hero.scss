@@ -50,8 +50,8 @@
 
     letter-spacing: 0.58rem;
 
-    -webkit-animation: tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000);
-    animation        : tracking-in-expand 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    -webkit-animation: fadeIn 3s;
+    animation        : fadeIn 3s;
 
     &:hover {
       letter-spacing: 0.7rem;

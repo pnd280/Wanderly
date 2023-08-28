@@ -49,6 +49,7 @@ const Tours = () => {
         fetchedTours = mockData;
       }
 
+      setTours(fetchedTours);
       displayItem(fetchedTours);
     })();
   }, []);
@@ -56,8 +57,6 @@ const Tours = () => {
   useEffect(() => {
     displayItem(tours);
   }, [displayLimit]);
-
-  
 
   const togglePrice = () => {
     setPriceToggle(!priceToggle);
