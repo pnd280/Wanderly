@@ -49,7 +49,6 @@ const Tours = () => {
         fetchedTours = mockData;
       }
 
-      setTours(fetchedTours);
       displayItem(fetchedTours);
     })();
   }, []);
