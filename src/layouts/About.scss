@@ -1,3 +1,5 @@
+@import "../mixins.scss";
+
 .section-about {
   margin    : 0 5rem;
   margin-top: 7rem;
@@ -90,7 +92,9 @@
 .image-container {
   &:hover {
     transform : translate(0, -.5rem) scale(1.2);
-    box-shadow: 0 0 5rem rgba(var(--rgbcolor-primary), .5);
+    
+    @include box-shadow(var(--rgbcolor-primary));
+
     z-index   : 1;
   }
 

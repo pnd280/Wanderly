@@ -1,3 +1,5 @@
+@import "./mixins.scss";
+
 .u-text-highlight {
   color: var(--color-primary);
 }
@@ -41,11 +43,11 @@
 }
 
 .height-collapsed {
-  height: 0;
+  max-height: 0px;
 }
 
 .height-expanded {
-  height: 100%;
+  max-height: 100rem;
 }
 
 /* #region  Typography */
@@ -57,10 +59,7 @@
   font-weight   : 700;
   letter-spacing: 0.3rem;
 
-  background-image       : linear-gradient(to right, var(--color-primary-light), var(--color-primary-dark));
-  background-clip        : text;
-  -webkit-background-clip: text;
-  color                  : transparent;
+  @include gradient-text;
 
   transition: transform .4s, text-shadow .4s;
 
@@ -148,7 +147,7 @@
 
 @keyframes moveInTop {
   0% {
-    opacity: 0;
+    opacity  : 0;
     transform: translate(0, -3rem);
   }
 

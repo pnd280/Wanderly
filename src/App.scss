@@ -18,10 +18,32 @@ body {
 
   width: 100vw;
 
-  overflow-x: hidden;
 
+  & {
+    #root {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      flex-direction: column;
+
+      & .section-about {
+        max-width: 125rem;
+
+      }
+
+      & .section-features, & .section-book, & .section-testimonials, & .footer {
+        width: 100vw;
+      }
+    }
+  }
+  
+  overflow-x: hidden;
+  
   & > * {
     overflow-x: hidden;
+
+    max-width: 100%;
   }
 }
 

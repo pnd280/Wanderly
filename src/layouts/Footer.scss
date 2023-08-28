@@ -1,3 +1,5 @@
+@import "../mixins.scss";
+
 .footer {
   padding: 2rem 0;
 
@@ -34,10 +36,7 @@
     font-size  : 1.8rem;
     font-weight: 700;
 
-    background-image       : linear-gradient(to right, var(--color-primary-light), var(--color-primary-dark));
-    background-clip        : text;
-    -webkit-background-clip: text;
-    color                  : transparent;
+    @include gradient-text;
   }
 
   &__socials {

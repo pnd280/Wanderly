@@ -1,6 +1,8 @@
 import { PropTypes } from 'prop-types';
 import ParagraphWithHeading from './ParagraphWithHeading';
 
+import "./FeatureBox.scss";
+
 const FeatureBox = ({ icon, title, description }) => {
   return (
     <div className="section-features__feature-box">

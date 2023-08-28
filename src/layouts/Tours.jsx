@@ -13,13 +13,11 @@ import Button from '../components/Button';
 const Tours = () => {
   const [tours, setTours] = useState([]);
   const [displayedTours, setDisplayedTours] = useState([]);
-
   const [pageCount, setPageCount] = useState(0);
   const [activePage, setActivePage] = useState(0);
-
   const [searchTerm, setSearchTerm] = useState('');
-
   const [displayLimit, setDisplayLimit] = useState(3);
+  const [priceToggle, setPriceToggle] = useState(false);
 
   const filteredTours = tours.filter((tour) => {
     if (searchTerm.length > 0) {
@@ -27,62 +25,31 @@ const Tours = () => {
     }
   });
 
-  /* #region Lazy load */
-  // const fetchTourCount = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       'http://127.0.0.1:28000/tours/all?type=count'
-  //     );
-  //     setPageCount(() => {
-  //       const newPageCount = Math.ceil(response.data / 3);
-  //       console.log('pageCount = ' + newPageCount);
-
-  //       setToursInRange(0);
-
-  //       return newPageCount;
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const setToursInRange = async (pageIndex) => {
-  //   try {
-  //     const from = pageIndex * 3 + 1;
-  //     const to = from + 2;
-
-  //     const response = await axios.get(
-  //       `http://127.0.0.1:28000/tours?from=${from}&to=${to}`
-  //     );
-
-  //     setTours(response.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  /* #endregion */
-
   const displayItem = (tours) => {
     const pageCount = Math.ceil(tours.length / displayLimit);
     setPageCount(pageCount);
     setTours(tours);
-    setDisplayedTours(tours.slice(activePage * displayLimit, activePage * displayLimit + displayLimit));
+    setDisplayedTours(
+      tours.slice(
+        activePage * displayLimit,
+        activePage * displayLimit + displayLimit
+      )
+    );
   };
 
   useEffect(() => {
-    // fetchTourCount();
-
     (async () => {
       let fetchedTours = [];
 
       try {
         const response = await axios.get('http://127.0.0.1:28000/tours/all');
         fetchedTours = response.data;
-        displayItem(fetchedTours);
       } catch (error) {
         console.log(error);
         fetchedTours = mockData;
       }
+
+      displayItem(fetchedTours);
     })();
   }, []);
 
@@ -90,7 +57,7 @@ const Tours = () => {
     displayItem(tours);
   }, [displayLimit]);
 
-  const [priceToggle, setPriceToggle] = useState(false);
+  
 
   const togglePrice = () => {
     setPriceToggle(!priceToggle);

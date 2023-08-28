@@ -1,3 +1,5 @@
+@import "../mixins.scss";
+
 .tour-card {
   height: 100%;
 
@@ -7,11 +9,12 @@
 
   cursor: pointer;
 
-  max-width: 30vw;
-  min-width: 30vw;
+  max-width: 30rem;
+  min-width: 30rem;
 
   @media (max-width: 640px) {
     max-width: 80vw;
+    min-width: 80vw;
   }
 
   text-align: center;
@@ -32,11 +35,13 @@
   &:hover {
     z-index   : 1000;
     transform : scale(1.1);
-    box-shadow: 0 0 4rem rgba(var(--rgbcolor-primary), .4);
+
+    @include box-shadow(var(--rgbcolor-primary));
   }
 
   &__name {
     margin-top: 1rem;
+    width: 100%;
 
     font-size  : 1.3rem;
     font-weight: 300;
@@ -53,6 +58,7 @@
   }
 
   &__details {
+    width: 100%;
     padding: 0 2rem;
   }
 
@@ -98,6 +104,10 @@
 
     color           : var(--color-white);
     background-color: var(--color-primary);
+
+    transition: max-height 1s ease-out;
+
+    // height: auto;
 
     & .price {
       padding: 2rem 0;

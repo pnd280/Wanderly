@@ -38,7 +38,7 @@ const TourCard = ({ tour, priceToggle }) => {
       </div>
       <div
         className={`tour-card__price-box ${
-          priceToggle ? '' : 'height-collapsed'
+          priceToggle ? 'height-expanded' : 'height-collapsed'
         }`}
       >
         <div className="price">

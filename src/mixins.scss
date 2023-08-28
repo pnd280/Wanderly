@@ -1,0 +1,11 @@
+@mixin gradient-text {
+  background-image       : linear-gradient(to right, var(--color-primary-light), var(--color-primary-dark));
+  background-clip        : text;
+  -webkit-background-clip: text;
+  color                  : transparent;
+}
+
+@mixin box-shadow($color: black) {
+  box-shadow   : 0 0 4rem rgba($color, .4);
+  border-radius: .375rem;
+}

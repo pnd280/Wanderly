@@ -15,8 +15,8 @@ Problems:
 TODO:
 - Refactor CSS:
   + Use mixins
-    * box shadows
-    * primary gradient
+    [x] box shadows
+    [x] primary gradient
     * gap between sections
   + Write better & reusable media queries
 
