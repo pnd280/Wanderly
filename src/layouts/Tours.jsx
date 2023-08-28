@@ -66,7 +66,7 @@ const Tours = () => {
     const pageCount = Math.ceil(tours.length / displayLimit);
     setPageCount(pageCount);
     setTours(tours);
-    setDisplayedTours(tours.slice(0, displayLimit));
+    setDisplayedTours(tours.slice(activePage * displayLimit, activePage * displayLimit + displayLimit));
   };
 
   useEffect(() => {
