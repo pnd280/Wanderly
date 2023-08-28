@@ -46,6 +46,8 @@
     display        : flex;
     justify-content: center;
 
+    flex-wrap: wrap;
+
     gap: 1rem;
 
     width: 100%;
@@ -58,10 +60,15 @@
     @media (max-width: 640px) {
       // width: 20rem;
 
-      flex-direction: column;
+      flex-direction : column;
       justify-content: center;
-      align-items: center;
+      align-items    : center;
     }
+
+  }
+
+  & .btn-text {
+    color: var(--color-primary)
   }
 
   &__pagination {
@@ -77,12 +84,12 @@
 
     & .btn.is-active {
       background-color: var(--color-primary);
-      color: var(--color-white);
+      color           : var(--color-white);
     }
   }
 }
 
 .cta-text-book {
-  font-size: 2rem;
+  font-size : 2rem;
   text-align: center;
 }

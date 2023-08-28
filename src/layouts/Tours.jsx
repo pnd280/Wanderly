@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import Slider from '../components/Slider';
 
 import mockData from '../mock-data.js';
+import Button from '../components/Button';
 
 const Tours = () => {
   const [tours, setTours] = useState([]);
@@ -18,8 +19,12 @@ const Tours = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
 
+  const [displayLimit, setDisplayLimit] = useState(3);
+
   const filteredTours = tours.filter((tour) => {
-    return tour.name.toLowerCase().includes(searchTerm.toLowerCase());
+    if (searchTerm.length > 0) {
+      return tour.name.toLowerCase().includes(searchTerm.toLowerCase());
+    }
   });
 
   /* #region Lazy load */
@@ -57,6 +62,13 @@ const Tours = () => {
   // };
   /* #endregion */
 
+  const displayItem = (tours) => {
+    const pageCount = Math.ceil(tours.length / displayLimit);
+    setPageCount(pageCount);
+    setTours(tours);
+    setDisplayedTours(tours.slice(0, displayLimit));
+  };
+
   useEffect(() => {
     // fetchTourCount();
 
@@ -65,19 +77,18 @@ const Tours = () => {
 
       try {
         const response = await axios.get('http://127.0.0.1:28000/tours/all');
-
         fetchedTours = response.data;
+        displayItem(fetchedTours);
       } catch (error) {
         console.log(error);
         fetchedTours = mockData;
       }
-
-      const pageCount = Math.ceil(fetchedTours.length / 3);
-      setPageCount(pageCount);
-      setTours(fetchedTours);
-      setDisplayedTours(fetchedTours.slice(0, 3));
     })();
   }, []);
+
+  useEffect(() => {
+    displayItem(tours);
+  }, [displayLimit]);
 
   const [priceToggle, setPriceToggle] = useState(false);
 
@@ -116,26 +127,44 @@ const Tours = () => {
         )}
       </div>
 
-      <div className="section-tours__pagination">
-        {pageCount > 0
-          ? Array.from({ length: pageCount }, (_, i) => i + 1).map(
-              (page, index) => (
-                <div
-                  key={index}
-                  className={`section-tours__pagination-item btn ${
-                    index === activePage ? 'is-active' : ''
-                  }`}
-                  onClick={() => {
-                    setDisplayedTours(tours.slice(index * 3, index * 3 + 3));
-                    setActivePage(index);
-                  }}
-                >
-                  {page}
-                </div>
-              )
-            )
-          : null}
-      </div>
+      {searchTerm.length > 0 ? null : (
+        <>
+          <div
+            className="btn-text"
+            onClick={() => {
+              setDisplayLimit(displayLimit == 3 ? 6 : 3);
+            }}
+          >
+            Show {displayLimit == 3 ? 'more' : 'less'}
+          </div>
+
+          <div className="section-tours__pagination">
+            {pageCount > 0
+              ? Array.from({ length: pageCount }, (_, i) => i + 1).map(
+                  (page, index) => (
+                    <Button
+                      key={index}
+                      className={`section-tours__pagination-item btn ${
+                        index === activePage ? 'is-active' : ''
+                      }`}
+                      onClick={() => {
+                        setActivePage(index);
+                        setDisplayedTours(
+                          tours.slice(
+                            index * displayLimit,
+                            index * displayLimit + displayLimit
+                          )
+                        );
+                      }}
+                    >
+                      {page}
+                    </Button>
+                  )
+                )
+              : null}
+          </div>
+        </>
+      )}
 
       <div className="cta-text-book">
         Can&apos;t find your ideal place? Let us help you 👇🏻

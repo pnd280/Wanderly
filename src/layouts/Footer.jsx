@@ -1,8 +1,28 @@
 import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
 
 import './Footer.scss';
+import NavList from '../components/NavList';
 
 const Footer = () => {
+  const navLinks = [
+    {
+      text: 'Company',
+    },
+    {
+      text: 'Blog',
+    },
+    {
+      text: 'Careers',
+    },
+
+    {
+      text: 'FAQ',
+    },
+    {
+      text: 'Privacy terms',
+    },
+  ];
+
   return (
     <footer className="footer">
       <div className="footer__logo">
@@ -26,33 +46,7 @@ const Footer = () => {
 
       <div className="footer__links">
         <div className="footer__nav">
-          <ul className="nav__list">
-            <li className="nav__item">
-              <a href="#" className="nav__link">
-                Company
-              </a>
-            </li>
-            <li className="nav__item">
-              <a href="#" className="nav__link">
-                Blog
-              </a>
-            </li>
-            <li className="nav__item">
-              <a href="#" className="nav__link">
-                Careers
-              </a>
-            </li>
-            <li className="nav__item">
-              <a href="#" className="nav__link">
-                FAQ
-              </a>
-            </li>
-            <li className="nav__item">
-              <a href="#" className="nav__link">
-                Privacy terms
-              </a>
-            </li>
-          </ul>
+          <NavList links={navLinks} />
         </div>
       </div>
 

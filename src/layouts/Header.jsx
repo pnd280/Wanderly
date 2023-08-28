@@ -1,4 +1,4 @@
-import Navbar from '../components/NavBar';
+import Navbar from '../components/Navbar';
 import logo from '../assets/wanderly-logo-outlined.svg';
 import Hero from '../components/Hero';
 

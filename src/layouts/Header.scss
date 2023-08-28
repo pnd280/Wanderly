@@ -51,12 +51,21 @@
     -webkit-animation: puff-in-center 0.7s cubic-bezier(0.470, 0.000, 0.745, 0.715) both;
     animation        : puff-in-center 0.7s cubic-bezier(0.470, 0.000, 0.745, 0.715) both;
 
+    & img {
+      transition: all .4s;
+    }
 
     @media (max-width: 800px) {
       position: absolute;
 
-      top: 10%;
+      top: 15%;
+
+      & img {
+        transform: scale(2);
+      }
     }
+
+    
   }
 
   &__logo {
@@ -82,7 +91,7 @@
   }
 
   @media (max-width: 730px) {
-    font-size  : 1.2rem;
+    font-size: 1.2rem;
   }
 
   @media (max-width: 1300px) {

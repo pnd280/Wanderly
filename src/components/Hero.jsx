@@ -1,3 +1,4 @@
+import Button from './Button';
 import './Hero.scss';
 
 const Hero = () => {
@@ -6,9 +7,9 @@ const Hero = () => {
       <div className="section-hero__container">
         <h1 className="section-hero__title">Wanderly</h1>
         <p className="section-hero__subtitle">Outdoors is where life happens</p>
-        <a href="#tours" className="section-hero__cta-button btn">
+        <Button href="#tours" className="section-hero__cta-button">
           Discover our tours
-        </a>
+        </Button>
       </div>
     </section>
   );

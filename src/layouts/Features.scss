@@ -27,14 +27,6 @@
     z-index: -1;
   }
 
-  clip-path: polygon(0 10vh, 100% 0, 100% 90vh, 0 100%);
-
-  transition: clip-path .4s;
-
-  @media screen and (max-width: 1300px) {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  }
-
   &__feature-container {
 
     margin: 7rem;
