@@ -10,7 +10,7 @@ import Book from './layouts/Book';
 
 function App() {
   return (
-    <>  
+    <>
       <Header/>
       <About/>
       <Features/>

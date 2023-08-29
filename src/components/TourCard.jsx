@@ -1,3 +1,5 @@
+import { AiOutlineHeart } from 'react-icons/ai';
+
 import { PropTypes } from 'prop-types';
 
 import './TourCard.scss';
@@ -11,6 +13,9 @@ const TourCard = ({ tour, priceToggle }) => {
             src={`https://source.unsplash.com/random/1600x900/?${tour.name}`}
             alt={tour.name}
           />
+          <div className="tour-card__img__favorite" onClick={() => {}}>
+            <AiOutlineHeart />
+          </div>
         </div>
         <div className="tour-card__name">{tour.name}</div>
       </div>

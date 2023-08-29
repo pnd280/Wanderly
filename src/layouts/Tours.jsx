@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import axios from 'axios';
 
 import TourCard from '../components/TourCard';
@@ -12,32 +12,15 @@ import Button from '../components/Button';
 
 const Tours = () => {
   const [tours, setTours] = useState([]);
-  const [displayedTours, setDisplayedTours] = useState([]);
-  const [pageCount, setPageCount] = useState(0);
-  const [activePage, setActivePage] = useState(0);
+
   const [searchTerm, setSearchTerm] = useState('');
-  const [displayLimit, setDisplayLimit] = useState(3);
+  const [activePageIndex, setActivePageIndex] = useState(0);
+  const [cardPerPage, setCardPerPage] = useState(3);
+
   const [priceToggle, setPriceToggle] = useState(false);
 
-  const filteredTours = tours.filter((tour) => {
-    if (searchTerm.length > 0) {
-      return tour.name.toLowerCase().includes(searchTerm.toLowerCase());
-    }
-  });
-
-  const displayItem = (tours) => {
-    const pageCount = Math.ceil(tours.length / displayLimit);
-    setPageCount(pageCount);
-    setTours(tours);
-    setDisplayedTours(
-      tours.slice(
-        activePage * displayLimit,
-        activePage * displayLimit + displayLimit
-      )
-    );
-  };
-
   useEffect(() => {
+    console.log('effect 1');
     (async () => {
       let fetchedTours = [];
 
@@ -45,20 +28,32 @@ const Tours = () => {
         const response = await axios.get('http://127.0.0.1:28000/tours/all');
         fetchedTours = response.data;
       } catch (error) {
-        console.log(error);
         fetchedTours = mockData;
       }
 
-      displayItem(fetchedTours);
+      setTours(fetchedTours);
+      setActivePageIndex(1);
     })();
   }, []);
 
+  const displayedTours = useMemo(() => {
+    return searchTerm.length > 0
+      ? tours.filter((tour) =>
+          tour.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      : tours.slice(
+          (activePageIndex - 1) * cardPerPage,
+          (activePageIndex - 1) * cardPerPage + cardPerPage
+        );
+  }, [activePageIndex, searchTerm, cardPerPage, tours]);
+
   useEffect(() => {
-    displayItem(tours);
-  }, [displayLimit]);
+    activePageIndex > Math.ceil(tours.length / cardPerPage) &&
+      setActivePageIndex(Math.ceil(tours.length / cardPerPage));
+  }, [cardPerPage]);
 
   const togglePrice = () => {
-    setPriceToggle(!priceToggle);
+    setPriceToggle((prevPriceToggle) => !prevPriceToggle);
   };
 
   return (
@@ -79,54 +74,46 @@ const Tours = () => {
         <Slider label="Show price" onClick={togglePrice} />
       </div>
       <div className="section-tours__tour-container">
-        {pageCount < 1 ? (
-          <div>No tours found at the momment 😅</div>
-        ) : searchTerm === '' ? (
-          displayedTours.map((tour, index) => (
-            <TourCard key={index} tour={tour} priceToggle={priceToggle} />
-          ))
+        {tours.length > 0 ? (
+          displayedTours.map((tour, index) => {
+            return (
+              <TourCard key={index} tour={tour} priceToggle={priceToggle} />
+            );
+          })
         ) : (
-          filteredTours.map((tour, index) => (
-            <TourCard key={index} tour={tour} priceToggle={priceToggle} />
-          ))
+          <div>Fetching tours...</div>
         )}
       </div>
 
-      {searchTerm.length > 0 ? null : (
+      {searchTerm.length < 1 && (
         <>
           <div
             className="btn-text"
             onClick={() => {
-              setDisplayLimit(displayLimit == 3 ? 6 : 3);
+              setCardPerPage(cardPerPage == 3 ? 6 : 3);
             }}
           >
-            Show {displayLimit == 3 ? 'more' : 'less'}
+            Show {cardPerPage == 3 ? 'more' : 'less'}
           </div>
-
           <div className="section-tours__pagination">
-            {pageCount > 0
-              ? Array.from({ length: pageCount }, (_, i) => i + 1).map(
-                  (page, index) => (
-                    <Button
-                      key={index}
-                      className={`section-tours__pagination-item btn ${
-                        index === activePage ? 'is-active' : ''
-                      }`}
-                      onClick={() => {
-                        setActivePage(index);
-                        setDisplayedTours(
-                          tours.slice(
-                            index * displayLimit,
-                            index * displayLimit + displayLimit
-                          )
-                        );
-                      }}
-                    >
-                      {page}
-                    </Button>
-                  )
-                )
-              : null}
+            {Array.from(
+              { length: Math.ceil(tours.length / cardPerPage) },
+              (_, i) => i + 1
+            ).map((pageIndex, index) => {
+              return (
+                <Button
+                  key={index}
+                  className={`section-tours__pagination-item btn ${
+                    index + 1 === activePageIndex ? 'is-active' : ''
+                  }`}
+                  onClick={() => {
+                    setActivePageIndex(index + 1);
+                  }}
+                >
+                  {pageIndex}
+                </Button>
+              );
+            })}
           </div>
         </>
       )}
