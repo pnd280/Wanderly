@@ -15,6 +15,7 @@ const initialState = {
   activePageIndex: 0,
   cardPerPage: 3,
   searchTerm: '',
+  showOnlyFavorite: false,
 };
 
 const reducer = (state, action) => {
@@ -39,6 +40,11 @@ const reducer = (state, action) => {
         ...state,
         searchTerm: action.payload,
       };
+    case 'SHOW_ONLY_FAVORITED':
+      return {
+        ...state,
+        showOnlyFavorite: !state.showOnlyFavorite,
+      };
     default:
       return state;
   }
@@ -48,8 +54,10 @@ const Tours = () => {
   const [tours, setTours] = useState([]);
   const [favoriteTours, setFavoriteTours] = useState([]);
 
-  const [{ priceToggle, activePageIndex, cardPerPage, searchTerm }, dispatch] =
-    useReducer(reducer, initialState);
+  const [
+    { priceToggle, activePageIndex, cardPerPage, searchTerm, showOnlyFavorite },
+    dispatch,
+  ] = useReducer(reducer, initialState);
 
   const searchBoxRef = useRef(null);
 
@@ -68,16 +76,19 @@ const Tours = () => {
 
       setTours(fetchedTours);
       dispatch({ type: 'SET_ACTIVE_PAGE_INDEX', payload: 1 });
+
+      // fetch favorite list
+      const fetchedList = JSON.parse(localStorage.getItem('favoriteTours'));
+
+      fetchedList?.length > 0 && setFavoriteTours(fetchedList);
     })();
   }, []);
 
-  useEffect(() => {
-    const fetchedList = JSON.parse(localStorage.getItem('favoriteTours'));
-
-    fetchedList?.length > 0 && setFavoriteTours(fetchedList);
-  }, []);
-
   const displayedTours = useMemo(() => {
+    if (showOnlyFavorite) {
+      return tours.filter((tour) => favoriteTours.includes(tour.id));
+    }
+
     return searchTerm.length > 0
       ? tours.filter((tour) =>
           tour.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -86,7 +97,7 @@ const Tours = () => {
           (activePageIndex - 1) * cardPerPage,
           (activePageIndex - 1) * cardPerPage + cardPerPage
         );
-  }, [activePageIndex, searchTerm, cardPerPage]);
+  }, [activePageIndex, searchTerm, cardPerPage, showOnlyFavorite, favoriteTours]);
 
   useEffect(() => {
     activePageIndex > Math.ceil(tours.length / cardPerPage) &&
@@ -115,6 +126,12 @@ const Tours = () => {
           label="Show price"
           onClick={() => {
             dispatch({ type: 'TOGGLE_PRICE' });
+          }}
+        />
+        <Slider
+          label="Favorite list"
+          onClick={() => {
+            dispatch({ type: 'SHOW_ONLY_FAVORITED' });
           }}
         />
       </div>
@@ -149,7 +166,7 @@ const Tours = () => {
         )}
       </div>
 
-      {searchTerm.length < 1 && (
+      {(searchTerm.length < 1 && !showOnlyFavorite) && (
         <>
           <div
             className="btn-text"

@@ -42,6 +42,17 @@
         outline     : none;
       }
     }
+
+    @media (max-width: 900px) {
+      flex-direction: column;
+
+      justify-content: center;
+      align-items: center;
+
+      & .search-box__input {
+        width: 100%;
+      }
+    }
   }
 
   &__tour-container {
