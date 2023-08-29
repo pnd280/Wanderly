@@ -266,6 +266,62 @@ const mockData = [
     },
     price_per_person: 2500,
   },
+  {
+    id: 20,
+    name: 'Canyon and Waterfall Hike',
+    details: {
+      description:
+        'Embark on a thrilling hiking adventure through breathtaking canyons and waterfalls. Traverse challenging trails, swim in crystal-clear pools, and marvel at the stunning natural beauty of the landscape.',
+      duration: 5,
+      guides: 2,
+      accommodations: 'Rustic lodges',
+      min: 4,
+      max: 8,
+    },
+    price_per_person: 1600,
+  },
+  {
+    id: 21,
+    name: 'Art and Architecture Tour',
+    details: {
+      description:
+        "Discover the world's most iconic art and architecture on a guided tour through historic cities. Visit renowned museums, galleries, and architectural masterpieces while learning about their fascinating stories and creators.",
+      duration: 7,
+      guides: 2,
+      accommodations: 'Boutique hotels',
+      min: 6,
+      max: 12,
+    },
+    price_per_person: 2100,
+  },
+  {
+    id: 22,
+    name: 'Birdwatching Expedition',
+    details: {
+      description:
+        'Explore diverse habitats on a birdwatching expedition led by expert guides. Observe and identify a wide variety of bird species, while learning about their unique behaviors, calls, and conservation efforts.',
+      duration: 6,
+      guides: 2,
+      accommodations: 'Eco-lodges',
+      min: 4,
+      max: 8,
+    },
+    price_per_person: 1800,
+  },
+  {
+    id: 23,
+    name: 'Gourmet Food and Cooking Tour',
+    details: {
+      description:
+        'Savor the flavors of local cuisine on a gourmet food and cooking tour. Visit markets, farms, and artisan producers, and learn the art of preparing authentic dishes from expert chefs in hands-on cooking classes.',
+      duration: 8,
+      guides: 2,
+      accommodations: 'Luxury hotels',
+      min: 6,
+      max: 10,
+    },
+    price_per_person: 2400,
+  },
 ];
 
 

@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import axios from 'axios';
 
 import TourCard from '../components/TourCard';
@@ -19,8 +19,9 @@ const Tours = () => {
 
   const [priceToggle, setPriceToggle] = useState(false);
 
+  const searchBoxRef = useRef(null);
+
   useEffect(() => {
-    console.log('effect 1');
     (async () => {
       let fetchedTours = [];
 
@@ -61,7 +62,7 @@ const Tours = () => {
       <h2 className="heading-secondary" id="tours">
         Guided tours
       </h2>
-      <div className="section-tours__search-box">
+      <div className="section-tours__search-box" ref={searchBoxRef}>
         <input
           type="text"
           className="search-box__input"
@@ -90,7 +91,15 @@ const Tours = () => {
           <div
             className="btn-text"
             onClick={() => {
-              setCardPerPage(cardPerPage == 3 ? 6 : 3);
+              let newCardPerPage = cardPerPage == 3 ? 6 : 3;
+
+              newCardPerPage < cardPerPage &&
+                searchBoxRef.current.scrollIntoView({
+                  behavior: 'smooth',
+                  block: 'start',
+                });
+
+              setCardPerPage(newCardPerPage);
             }}
           >
             Show {cardPerPage == 3 ? 'more' : 'less'}
