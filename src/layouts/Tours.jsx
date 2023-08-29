@@ -46,6 +46,7 @@ const reducer = (state, action) => {
 
 const Tours = () => {
   const [tours, setTours] = useState([]);
+  const [favoriteTours, setFavoriteTours] = useState([]);
 
   const [{ priceToggle, activePageIndex, cardPerPage, searchTerm }, dispatch] =
     useReducer(reducer, initialState);
@@ -68,6 +69,12 @@ const Tours = () => {
       setTours(fetchedTours);
       dispatch({ type: 'SET_ACTIVE_PAGE_INDEX', payload: 1 });
     })();
+  }, []);
+
+  useEffect(() => {
+    const fetchedList = JSON.parse(localStorage.getItem('favoriteTours'));
+
+    fetchedList?.length > 0 && setFavoriteTours(fetchedList);
   }, []);
 
   const displayedTours = useMemo(() => {
@@ -115,7 +122,26 @@ const Tours = () => {
         {tours.length > 0 ? (
           displayedTours.map((tour, index) => {
             return (
-              <TourCard key={index} tour={tour} priceToggle={priceToggle} />
+              <TourCard
+                key={index}
+                tour={tour}
+                priceToggle={priceToggle}
+                isFavorited={favoriteTours.includes(tour.id)}
+                setFavorite={() => {
+                  setFavoriteTours((favoriteTours) => {
+                    const newList = favoriteTours.includes(tour.id)
+                      ? favoriteTours.filter((v) => v !== tour.id)
+                      : favoriteTours.concat([tour.id]);
+
+                    localStorage.setItem(
+                      'favoriteTours',
+                      JSON.stringify(newList)
+                    );
+
+                    return newList;
+                  });
+                }}
+              />
             );
           })
         ) : (

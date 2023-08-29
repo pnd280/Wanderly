@@ -32,6 +32,14 @@
   transition: transform .4s,
   box-shadow .4s;
 
+  &.favorited {
+    border: 2px solid var(--color-primary);
+  }
+
+  &.favorited &__img &__img__favorite {
+    opacity  : 1;
+    font-size: 2rem;
+  }
 
   &:hover {
     z-index  : 1000;
