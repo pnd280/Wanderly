@@ -29,19 +29,20 @@
   overflow     : hidden;
 
 
-  transition: transform .4s, box-shadow .4s;
+  transition: transform .4s,
+  box-shadow .4s;
 
 
   &:hover {
-    z-index   : 1000;
-    transform : scale(1.1);
+    z-index  : 1000;
+    transform: scale(1.1);
 
     @include box-shadow(var(--rgbcolor-primary));
   }
 
   &__name {
     margin-top: 1rem;
-    width: 100%;
+    width     : 100%;
 
     font-size  : 1.3rem;
     font-weight: 300;
@@ -50,15 +51,36 @@
   &__img {
     width: 100%;
 
+    position: relative;
+
     & img {
       width        : 100%;
       // max-height: 10rem;
     }
 
+    &__favorite {
+      position: absolute;
+
+      top  : 1rem;
+      right: 1rem;
+
+      font-size: 1rem;
+
+      color: var(--color-primary);
+
+      opacity: 0;
+
+      transition: opacity .2s, font-size .2s;
+    }
+
+    &:hover &__favorite {
+      opacity  : 1;
+      font-size: 2rem;
+    }
   }
 
   &__details {
-    width: 100%;
+    width  : 100%;
     padding: 0 2rem;
   }
 
@@ -105,7 +127,7 @@
     color           : var(--color-white);
     background-color: var(--color-primary);
 
-    transition: max-height 1s ease-out;
+    transition: max-height 1s;
 
     // height: auto;
 
