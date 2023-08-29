@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useReducer } from 'react';
 import axios from 'axios';
 
 import TourCard from '../components/TourCard';
@@ -10,19 +10,52 @@ import Slider from '../components/Slider';
 import mockData from '../mock-data.js';
 import Button from '../components/Button';
 
+const initialState = {
+  priceToggle: false,
+  activePageIndex: 0,
+  cardPerPage: 3,
+  searchTerm: '',
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'TOGGLE_PRICE':
+      return {
+        ...state,
+        priceToggle: !state.priceToggle,
+      };
+    case 'SET_ACTIVE_PAGE_INDEX':
+      return {
+        ...state,
+        activePageIndex: action.payload,
+      };
+    case 'SET_CARD_PER_PAGE':
+      return {
+        ...state,
+        cardPerPage: action.payload,
+      };
+    case 'SET_SEARCH_TERM':
+      return {
+        ...state,
+        searchTerm: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
 const Tours = () => {
   const [tours, setTours] = useState([]);
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [activePageIndex, setActivePageIndex] = useState(0);
-  const [cardPerPage, setCardPerPage] = useState(3);
-
-  const [priceToggle, setPriceToggle] = useState(false);
+  const [{ priceToggle, activePageIndex, cardPerPage, searchTerm }, dispatch] =
+    useReducer(reducer, initialState);
 
   const searchBoxRef = useRef(null);
 
   useEffect(() => {
     (async () => {
+      console.log('fetching tours...');
+
       let fetchedTours = [];
 
       try {
@@ -33,7 +66,7 @@ const Tours = () => {
       }
 
       setTours(fetchedTours);
-      setActivePageIndex(1);
+      dispatch({ type: 'SET_ACTIVE_PAGE_INDEX', payload: 1 });
     })();
   }, []);
 
@@ -46,16 +79,15 @@ const Tours = () => {
           (activePageIndex - 1) * cardPerPage,
           (activePageIndex - 1) * cardPerPage + cardPerPage
         );
-  }, [activePageIndex, searchTerm, cardPerPage, tours]);
+  }, [activePageIndex, searchTerm, cardPerPage]);
 
   useEffect(() => {
     activePageIndex > Math.ceil(tours.length / cardPerPage) &&
-      setActivePageIndex(Math.ceil(tours.length / cardPerPage));
+      dispatch({
+        type: 'SET_ACTIVE_PAGE_INDEX',
+        payload: Math.ceil(tours.length / cardPerPage),
+      });
   }, [cardPerPage]);
-
-  const togglePrice = () => {
-    setPriceToggle((prevPriceToggle) => !prevPriceToggle);
-  };
 
   return (
     <section className="section-tours">
@@ -69,10 +101,15 @@ const Tours = () => {
           placeholder="Enter a tour name..."
           value={searchTerm}
           onChange={(e) => {
-            setSearchTerm(e.target.value);
+            dispatch({ type: 'SET_SEARCH_TERM', payload: e.target.value });
           }}
         />
-        <Slider label="Show price" onClick={togglePrice} />
+        <Slider
+          label="Show price"
+          onClick={() => {
+            dispatch({ type: 'TOGGLE_PRICE' });
+          }}
+        />
       </div>
       <div className="section-tours__tour-container">
         {tours.length > 0 ? (
@@ -99,7 +136,7 @@ const Tours = () => {
                   block: 'start',
                 });
 
-              setCardPerPage(newCardPerPage);
+              dispatch({ type: 'SET_CARD_PER_PAGE', payload: newCardPerPage });
             }}
           >
             Show {cardPerPage == 3 ? 'more' : 'less'}
@@ -116,7 +153,10 @@ const Tours = () => {
                     index + 1 === activePageIndex ? 'is-active' : ''
                   }`}
                   onClick={() => {
-                    setActivePageIndex(index + 1);
+                    dispatch({
+                      type: 'SET_ACTIVE_PAGE_INDEX',
+                      payload: index + 1,
+                    });
                   }}
                 >
                   {pageIndex}
