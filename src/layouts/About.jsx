@@ -37,7 +37,7 @@ const About = () => {
 
   return (
     <section className="section-about">
-      <h2 className="heading-secondary">Our foundation</h2>
+      <h2 className="heading-secondary" id="about">Our foundation</h2>
       <div>
         <div className="section-about__img-gallery">
           {images.map((image, key) => {

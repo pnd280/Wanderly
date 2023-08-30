@@ -7,7 +7,7 @@ import './Tours.scss';
 import { useEffect } from 'react';
 import Slider from '../components/Slider';
 
-import { tours as mockData } from '../mock-data.js';
+import { tours as mockData, merchs } from '../mock-data.js';
 import Button from '../components/Button';
 
 const initialState = {
@@ -169,6 +169,7 @@ const Tours = () => {
                 isFavorited={favoriteTours.includes(tour.id)}
                 setFavorite={setFavorite}
                 show={displayedTours.includes(tour.id)}
+                freeMerch={merchs[Math.floor(Math.random() * merchs.length)]}
               />
             );
           })

@@ -12,6 +12,7 @@ const TourCard = memo(function TourCard({
   isFavorited,
   setFavorite,
   show,
+  freeMerch,
 }) {
   return (
     <div
@@ -54,6 +55,9 @@ const TourCard = memo(function TourCard({
             <li className="tour-card__list-item">
               {tour.details.min} - {tour.details.max} people
             </li>
+            <li onClick={() => {
+              document.getElementById('merchs').scrollIntoView({ behavior: 'smooth' });
+            }}>🎁 {freeMerch.name}</li>
           </ul>
         </div>
       </div>

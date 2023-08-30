@@ -126,6 +126,14 @@
         }
 
       }
+
+      &:last-child {
+        transition: color .2s;
+
+        &:hover {
+          color: var(--color-primary);
+        }
+      }
     }
   }
 

@@ -8,10 +8,10 @@ const Navbar = () => {
       text: 'About',
     },
     {
-      text: 'Benefits',
+      text: 'Tours',
     },
     {
-      text: 'Tours',
+      text: 'Merchs',
     },
     {
       text: 'Stories',
