@@ -202,7 +202,7 @@ const Tours = () => {
                   className={`section-tours__pagination-item btn ${
                     index + 1 === activePageIndex ? 'is-active' : ''
                   }`}
-                  setActivePage={() => {
+                  onClick={() => {
                     dispatch({
                       type: 'SET_ACTIVE_PAGE_INDEX',
                       payload: index + 1,
