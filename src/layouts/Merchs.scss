@@ -7,8 +7,19 @@
 
   color: var(--color-black);
 
+  @media (max-width: 640px) {
+    max-width: 90vw;
+    min-width: 90vw;
+  }
+
   &>* {
     margin: 1.5rem 0;
+  }
+
+  & .heading-secondary {
+    @media (max-width: 640px) {
+      font-size: 2.5rem;
+    }
   }
 
   &__header {
