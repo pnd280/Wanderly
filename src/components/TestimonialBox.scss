@@ -22,11 +22,20 @@
   &:hover .author-box img {
     filter   : blur(3px);
     transform: scale(1.1);
+
+    @media (max-width: 900px) {
+      filter   : blur(0px);
+      transform: scale(1);
+    }
   }
 
   &:hover .author-box .author-box__name {
     transform: translate(-50%, -50%);
     opacity  : 1;
+
+    @media (max-width: 900px) {
+      transform: translate(-50%, 0%);
+    }
   }
 
   & .author-box {
@@ -39,6 +48,10 @@
     border-radius: 1000rem;
 
     width: 20%;
+
+    @media (max-width: 900px) {
+      border-radius: 0rem;
+    }
 
     & img {
       width: 100%;
@@ -67,6 +80,22 @@
       opacity: 0;
 
       transition: transform .4s, opacity .4s;
+
+      // always show the name when on non-hover devices
+      @media (max-width: 900px) {
+        opacity  : 1;
+
+        position: relative;
+
+        color: var(--color-black);
+
+        font-size: 1rem;
+
+        margin-top: .5rem;
+
+        transform: translate(-50%, 0%);
+      } 
+
     }
   }
 
