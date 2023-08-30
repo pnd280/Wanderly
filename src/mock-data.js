@@ -1,4 +1,4 @@
-const mockData = [
+const tours = [
   {
     id: 1,
     name: 'Tropical Beach Paradise',
@@ -324,5 +324,49 @@ const mockData = [
   },
 ];
 
+const merchs = [
+  {
+    id: 1,
+    name: 'Calm Mug',
+    price: 10,
+    isPopular: false,
+    img_src: './merch-cup.png',
+  },
+  {
+    id: 2,
+    name: 'Adventurer T-Shirt',
+    price: 20,
+    isPopular: false,
+    img_src: './merch-t-shirt.png',
+  },
+  {
+    id: 3,
+    name: 'Wanderer Hoodie',
+    price: 30,
+    isPopular: true,
+    img_src: './merch-hoodie.png',
+  },
+  {
+    id: 4,
+    name: 'Curious Bag',
+    price: 2,
+    isPopular: true,
+    img_src: './merch-bag.png',
+  },
+  {
+    id: 5,
+    name: 'Explorer Pillow',
+    price: 15,
+    isPopular: false,
+    img_src: './merch-pillow.png',
+  },
+  {
+    id: 6,
+    name: 'Nature Shampoo',
+    price: 10,
+    isPopular: false,
+    img_src: './merch-shampoo.png',
+  },
+];
 
-export default mockData;
+export { tours, merchs };

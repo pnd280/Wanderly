@@ -7,17 +7,19 @@ import Tours from './layouts/Tours';
 import Testimonials from './layouts/Testimonials';
 import Footer from './layouts/Footer';
 import Book from './layouts/Book';
+import Merchs from './layouts/Merchs';
 
 function App() {
   return (
     <>
-      <Header/>
-      <About/>
-      <Features/>
-      <Tours/>
-      <Book/>
-      <Testimonials/>
-      <Footer/>
+      <Header />
+      <About />
+      <Features />
+      <Tours />
+      <Book />
+      <Testimonials />
+      <Merchs />
+      <Footer />
     </>
   );
 }
