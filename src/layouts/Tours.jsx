@@ -7,7 +7,7 @@ import './Tours.scss';
 import { useEffect } from 'react';
 import Slider from '../components/Slider';
 
-import mockData from '../mock-data.js';
+import { tours as mockData } from '../mock-data.js';
 import Button from '../components/Button';
 
 const initialState = {
@@ -88,17 +88,20 @@ const Tours = () => {
 
   const displayedTours = useMemo(() => {
     if (showOnlyFavorite) {
-      return tours.filter((tour) => favoriteTours.includes(tour.id));
+      return tours
+        .filter((tour) => favoriteTours.includes(tour.id))
+        .map((tour) => tour.id);
     }
 
     return searchTerm.length > 0
-      ? tours.filter((tour) =>
-          tour.name.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      : tours.slice(
-          (activePageIndex - 1) * cardPerPage,
-          (activePageIndex - 1) * cardPerPage + cardPerPage
-        );
+      ? tours
+          .filter((merch) =>
+            merch.name.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+          .map((merch) => merch.id)
+      : Array.from({ length: cardPerPage }, (_, i) => {
+          return 1 + (activePageIndex - 1) * cardPerPage + i;
+        });
   }, [
     activePageIndex,
     searchTerm,
@@ -157,7 +160,7 @@ const Tours = () => {
       </div>
       <div className="section-tours__tour-container">
         {tours.length > 0 ? (
-          displayedTours.map((tour, index) => {
+          tours.map((tour, index) => {
             return (
               <TourCard
                 key={index}
@@ -165,6 +168,7 @@ const Tours = () => {
                 priceToggle={priceToggle}
                 isFavorited={favoriteTours.includes(tour.id)}
                 setFavorite={setFavorite}
+                show={displayedTours.includes(tour.id)}
               />
             );
           })
@@ -176,7 +180,7 @@ const Tours = () => {
       {searchTerm.length < 1 && !showOnlyFavorite && (
         <>
           <div
-            className="btn-text"
+            className="btn-text show-more-less"
             onClick={() => {
               let newCardPerPage = cardPerPage == 3 ? 6 : 3;
 

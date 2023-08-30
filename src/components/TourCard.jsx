@@ -11,9 +11,13 @@ const TourCard = memo(function TourCard({
   priceToggle,
   isFavorited,
   setFavorite,
+  show,
 }) {
   return (
-    <div className={`tour-card ${isFavorited ? 'favorited' : ''}`}>
+    <div
+      className={`tour-card ${isFavorited ? 'favorited' : ''}`}
+      style={{ display: show ? 'block' : 'none' }}
+    >
       <div className="tour-card__heading">
         <div className="tour-card__img">
           <img
@@ -72,6 +76,7 @@ TourCard.propTypes = {
   priceToggle: PropTypes.bool.isRequired,
   isFavorited: PropTypes.bool.isRequired,
   setFavorite: PropTypes.func.isRequired,
+  show: PropTypes.bool.isRequired,
 };
 
 export default TourCard;
