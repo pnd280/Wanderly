@@ -4,7 +4,14 @@ import { PropTypes } from 'prop-types';
 
 import './TourCard.scss';
 
-const TourCard = ({ tour, priceToggle, isFavorited, setFavorite }) => {
+import { memo } from 'react';
+
+const TourCard = memo(function TourCard({
+  tour,
+  priceToggle,
+  isFavorited,
+  setFavorite,
+}) {
   return (
     <div className={`tour-card ${isFavorited ? 'favorited' : ''}`}>
       <div className="tour-card__heading">
@@ -13,7 +20,12 @@ const TourCard = ({ tour, priceToggle, isFavorited, setFavorite }) => {
             src={`https://source.unsplash.com/random/1600x900/?${tour.name}`}
             alt={tour.name}
           />
-          <div className="tour-card__img__favorite" onClick={setFavorite}>
+          <div
+            className="tour-card__img__favorite"
+            onClick={() => {
+              setFavorite(tour.id);
+            }}
+          >
             {isFavorited ? <AiFillHeart /> : <AiOutlineHeart />}
           </div>
         </div>
@@ -53,7 +65,7 @@ const TourCard = ({ tour, priceToggle, isFavorited, setFavorite }) => {
       </div>
     </div>
   );
-};
+});
 
 TourCard.propTypes = {
   tour: PropTypes.object.isRequired,

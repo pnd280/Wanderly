@@ -29,11 +29,12 @@
   overflow     : hidden;
 
 
-  transition: transform .4s,
-  box-shadow .4s;
+  transition: transform .4s, box-shadow .4s, border .1s;
+
+  border: 0 solid;
 
   &.favorited {
-    border: 2px solid var(--color-primary);
+    border: 5px solid var(--color-primary);
   }
 
   &.favorited &__img &__img__favorite {

@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useReducer } from 'react';
+import { useState, useMemo, useRef, useReducer, useCallback } from 'react';
 import axios from 'axios';
 
 import TourCard from '../components/TourCard';
@@ -26,10 +26,12 @@ const reducer = (state, action) => {
         priceToggle: !state.priceToggle,
       };
     case 'SET_ACTIVE_PAGE_INDEX':
-      return {
-        ...state,
-        activePageIndex: action.payload,
-      };
+      return state.activePageIndex === action.payload
+        ? state
+        : {
+            ...state,
+            activePageIndex: action.payload,
+          };
     case 'SET_CARD_PER_PAGE':
       return {
         ...state,
@@ -97,7 +99,13 @@ const Tours = () => {
           (activePageIndex - 1) * cardPerPage,
           (activePageIndex - 1) * cardPerPage + cardPerPage
         );
-  }, [activePageIndex, searchTerm, cardPerPage, showOnlyFavorite, favoriteTours]);
+  }, [
+    activePageIndex,
+    searchTerm,
+    cardPerPage,
+    showOnlyFavorite,
+    favoriteTours,
+  ]);
 
   useEffect(() => {
     activePageIndex > Math.ceil(tours.length / cardPerPage) &&
@@ -106,6 +114,18 @@ const Tours = () => {
         payload: Math.ceil(tours.length / cardPerPage),
       });
   }, [cardPerPage]);
+
+  const setFavorite = useCallback((tourId) => {
+    setFavoriteTours((favoriteTours) => {
+      const newList = favoriteTours.includes(tourId)
+        ? favoriteTours.filter((v) => v !== tourId)
+        : favoriteTours.concat([tourId]);
+
+      localStorage.setItem('favoriteTours', JSON.stringify(newList));
+
+      return newList;
+    });
+  }, []);
 
   return (
     <section className="section-tours">
@@ -144,20 +164,7 @@ const Tours = () => {
                 tour={tour}
                 priceToggle={priceToggle}
                 isFavorited={favoriteTours.includes(tour.id)}
-                setFavorite={() => {
-                  setFavoriteTours((favoriteTours) => {
-                    const newList = favoriteTours.includes(tour.id)
-                      ? favoriteTours.filter((v) => v !== tour.id)
-                      : favoriteTours.concat([tour.id]);
-
-                    localStorage.setItem(
-                      'favoriteTours',
-                      JSON.stringify(newList)
-                    );
-
-                    return newList;
-                  });
-                }}
+                setFavorite={setFavorite}
               />
             );
           })
@@ -166,7 +173,7 @@ const Tours = () => {
         )}
       </div>
 
-      {(searchTerm.length < 1 && !showOnlyFavorite) && (
+      {searchTerm.length < 1 && !showOnlyFavorite && (
         <>
           <div
             className="btn-text"
@@ -195,7 +202,7 @@ const Tours = () => {
                   className={`section-tours__pagination-item btn ${
                     index + 1 === activePageIndex ? 'is-active' : ''
                   }`}
-                  onClick={() => {
+                  setActivePage={() => {
                     dispatch({
                       type: 'SET_ACTIVE_PAGE_INDEX',
                       payload: index + 1,
