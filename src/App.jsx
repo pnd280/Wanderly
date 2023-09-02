@@ -8,7 +8,6 @@ import Testimonials from './layouts/Testimonials';
 import Footer from './layouts/Footer';
 import Book from './layouts/Book';
 import Merchs from './layouts/Merchs';
-import Cart from './layouts/Cart';
 
 function App() {
   return (
