@@ -21,7 +21,7 @@ import TourCard from '@components/TourCard';
 
 const initialState = {
   priceToggle: false,
-  activePageIndex: 0,
+  activePageIndex: 1,
   cardPerPage: 3,
   searchTerm: '',
   showOnlyFavorite: false,
@@ -85,7 +85,6 @@ const Tours = () => {
   const searchBoxRef = useRef(null);
 
   const fetchTours = async () => {
-    console.log('fetching tours...');
     let fetchedTours = [];
 
     try {
@@ -108,7 +107,7 @@ const Tours = () => {
         addFavoriteTour(tourId);
       }
     },
-    [favoriteTours]
+    [addFavoriteTour, favoriteTours, removeFavoriteTour]
   );
 
   const displayedTours = useMemo(() => {
@@ -128,21 +127,20 @@ const Tours = () => {
           return 1 + (activePageIndex - 1) * cardPerPage + i;
         });
   }, [
-    activePageIndex,
-    searchTerm,
-    cardPerPage,
     showOnlyFavorite,
+    searchTerm,
+    tours,
+    cardPerPage,
     favoriteTours,
+    activePageIndex,
   ]);
 
   useEffect(() => {
     (async () => {
       const fetchedTours = await fetchTours();
       setTours(fetchedTours);
-
-      dispatch({ type: 'SET_ACTIVE_PAGE_INDEX', payload: 1 });
     })();
-  }, []);
+  }, [setTours]);
 
   useEffect(() => {
     if (merchFetched) {
@@ -150,16 +148,19 @@ const Tours = () => {
         tours.map(() => merchs[Math.floor(Math.random() * merchs.length)].name)
       );
     }
-  }, [merchs]);
+  }, [merchs, merchFetched, tours, setFreeMerchs]);
 
   // navigate to the last page if the current page is out of range after changing card per page
   useEffect(() => {
-    activePageIndex > Math.ceil(tours.length / cardPerPage) &&
-      dispatch({
-        type: 'SET_ACTIVE_PAGE_INDEX',
-        payload: Math.ceil(tours.length / cardPerPage),
-      });
-  }, [cardPerPage]);
+    tours.length > 0 &&
+    (function normalizeActivePageIndex() {
+      activePageIndex > Math.ceil(tours.length / cardPerPage) &&
+        dispatch({
+          type: 'SET_ACTIVE_PAGE_INDEX',
+          payload: Math.ceil(tours.length / cardPerPage),
+        });
+    })();
+  }, [activePageIndex, cardPerPage, tours.length]);
 
   return (
     <section className="section-tours">

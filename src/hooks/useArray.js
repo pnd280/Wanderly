@@ -1,4 +1,5 @@
 import {
+  useCallback,
   useDebugValue,
   useState,
 } from 'react';
@@ -6,29 +7,29 @@ import {
 const useArray = (initialValue, debugValue = '') => {
   const [array, setArray] = useState(initialValue);
 
-  const push = (element) => {
+  const push = useCallback((element) => {
     setArray((a) => [...a, element]);
-  };
+  }, []);
 
-  const filter = (callback) => {
+  const filter = useCallback((callback) => {
     setArray((a) => a.filter(callback));
-  };
+  }, []);
 
-  const update = (index, newElement) => {
+  const update = useCallback((index, newElement) => {
     setArray((a) => [
       ...a.slice(0, index),
       newElement,
       ...a.slice(index + 1, a.length),
     ]);
-  };
+  }, []);
 
-  const remove = (index) => {
+  const remove = useCallback((index) => {
     setArray((a) => [...a.slice(0, index), ...a.slice(index + 1, a.length)]);
-  };
+  }, []);
 
-  const clear = () => {
+  const clear = useCallback(() => {
     setArray([]);
-  };
+  }, []);
 
   useDebugValue(`${debugValue} (${array.length})`);
 

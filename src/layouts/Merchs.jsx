@@ -20,7 +20,7 @@ import MerchCard from '@components/MerchCard';
 import Pagination from '@components/Pagination';
 
 const initialState = {
-  activePageIndex: 0,
+  activePageIndex: 1,
   cardPerPage: 3,
   searchTerm: '',
 };
@@ -73,8 +73,6 @@ const Merchs = () => {
   );
 
   const fetchMerchs = async () => {
-    console.log('fetching merchs...');
-
     let fetchedMerchs = [];
 
     try {
@@ -97,25 +95,27 @@ const Merchs = () => {
       : Array.from({ length: cardPerPage }, (_, i) => {
           return 1 + (activePageIndex - 1) * cardPerPage + i;
         });
-  }, [activePageIndex, searchTerm, cardPerPage]);
+  }, [searchTerm, merchs, cardPerPage, activePageIndex]);
 
   useEffect(() => {
     (async () => {
       const fetchedMerchs = await fetchMerchs();
       setMerchs(fetchedMerchs);
       setMerchFetched(true);
-
-      dispatch({ type: 'SET_ACTIVE_PAGE_INDEX', payload: 1 });
     })();
-  }, []);
+  }, [setMerchFetched, setMerchs]);
+
 
   useEffect(() => {
-    activePageIndex > Math.ceil(merchs.length / cardPerPage) &&
-      dispatch({
-        type: 'SET_ACTIVE_PAGE_INDEX',
-        payload: Math.ceil(merchs.length / cardPerPage),
-      });
-  }, [cardPerPage]);
+    merchs.length > 0 &&
+    (function normalizeActivePageIndex() {
+      activePageIndex > Math.ceil(merchs.length / cardPerPage) &&
+        dispatch({
+          type: 'SET_ACTIVE_PAGE_INDEX',
+          payload: Math.ceil(merchs.length / cardPerPage),
+        });
+    })();
+  }, [activePageIndex, cardPerPage, merchs.length]);
 
   return (
     <>
