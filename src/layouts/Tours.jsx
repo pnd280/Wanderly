@@ -65,12 +65,13 @@ const Tours = () => {
   const { merchs, merchFetched } = useContext(AppContext);
 
   const { array: tours, setArray: setTours } = useArray([], 'tours');
+
   const {
     storedValue: favoriteTours,
-    setValue: setFavoriteTours,
     push: addFavoriteTour,
     remove: removeFavoriteTour,
   } = useArrayLocalStorage('favoriteTours');
+
   const { array: freeMerchs, setArray: setFreeMerchs } = useArray(
     [],
     'freeMerchs'

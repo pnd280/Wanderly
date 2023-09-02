@@ -15,6 +15,11 @@ const useArrayLocalStorage = (key) => {
     setValue(array);
   }, [array]);
 
+  // because useLocalStorage is synchronous, we can use the value immediately instead of using useEffect
+  // useEffect(() => {
+  //   setValue(storedValue);
+  // }, [storedValue]);
+
   useDebugValue(`useCart (${storedValue.length})`);
 
   return { storedValue, setValue, push, filter, update, remove, clear };
