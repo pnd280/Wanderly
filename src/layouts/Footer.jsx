@@ -3,7 +3,7 @@ import { IoLocationOutline } from 'react-icons/io5';
 import { FiPhone } from 'react-icons/fi';
 
 import './Footer.scss';
-import NavList from '../components/NavList';
+import NavList from '@components/NavList';
 
 const Footer = () => {
   const navLinks = [

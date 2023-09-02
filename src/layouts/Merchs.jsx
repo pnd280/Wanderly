@@ -1,16 +1,16 @@
 import { useEffect, useState, useReducer, useMemo, useCallback } from 'react';
 
-import useArray from '@hooks/useArray.js';
+import useArray from '@/hooks/useArray.js';
 
 import { BsCart } from 'react-icons/bs';
 
-import './Merchs.scss';
+import '@layouts/Merchs.scss';
 
 import { merchs as mockData } from '../mock-data';
-import MerchCard from '../components/MerchCard';
-import Button from '../components/Button';
 import axios from 'axios';
 import Cart from './Cart';
+import MerchCard from '@components/MerchCard';
+import Pagination from '@components/Pagination';
 
 const initialState = {
   activePageIndex: 0,
@@ -191,29 +191,14 @@ const Merchs = () => {
           >
             Show {cardPerPage == 3 ? 'more' : 'less'}
           </div>
-          <div className="section-merchs__pagination">
-            {Array.from(
-              { length: Math.ceil(merchs.length / cardPerPage) },
-              (_, i) => i + 1
-            ).map((pageIndex, index) => {
-              return (
-                <Button
-                  key={index}
-                  className={`section-tours__pagination-item btn ${
-                    index + 1 === activePageIndex ? 'is-active' : ''
-                  }`}
-                  onClick={() => {
-                    dispatch({
-                      type: 'SET_ACTIVE_PAGE_INDEX',
-                      payload: index + 1,
-                    });
-                  }}
-                >
-                  {pageIndex}
-                </Button>
-              );
-            })}
-          </div>
+          <Pagination
+            className="section-merchs__pagination"
+            activePageIndex={activePageIndex}
+            totalPage={Math.ceil(merchs.length / cardPerPage)}
+            pageChangeHandle={(index) => {
+              dispatch({ type: 'SET_ACTIVE_PAGE_INDEX', payload: index + 1 });
+            }}
+          />
         </>
       )}
     </div>

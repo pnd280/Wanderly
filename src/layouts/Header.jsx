@@ -1,6 +1,6 @@
-import Navbar from '../components/Navbar';
+import Navbar from '@components/Navbar';
 import logo from '../assets/wanderly-logo-outlined.svg';
-import Hero from '../components/Hero';
+import Hero from '@components/Hero';
 
 import './Header.scss';
 

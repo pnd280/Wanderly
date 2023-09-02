@@ -1,14 +1,15 @@
 import { useState, useMemo, useRef, useReducer, useCallback } from 'react';
 import axios from 'axios';
 
-import TourCard from '../components/TourCard';
+import TourCard from '@components/TourCard';
 
 import './Tours.scss';
 import { useEffect } from 'react';
-import Slider from '../components/Slider';
+import Slider from '@components/Slider';
 
 import { tours as mockData, merchs } from '../mock-data.js';
-import Button from '../components/Button';
+import Button from '@components/Button';
+import Pagination from '@components/Pagination';
 
 const initialState = {
   priceToggle: false,
@@ -81,7 +82,6 @@ const Tours = () => {
 
       // fetch favorite list
       const fetchedList = JSON.parse(localStorage.getItem('favoriteTours'));
-
       fetchedList?.length > 0 && setFavoriteTours(fetchedList);
     })();
   }, []);
@@ -196,29 +196,17 @@ const Tours = () => {
           >
             Show {cardPerPage == 3 ? 'more' : 'less'}
           </div>
-          <div className="section-tours__pagination">
-            {Array.from(
-              { length: Math.ceil(tours.length / cardPerPage) },
-              (_, i) => i + 1
-            ).map((pageIndex, index) => {
-              return (
-                <Button
-                  key={index}
-                  className={`section-tours__pagination-item btn ${
-                    index + 1 === activePageIndex ? 'is-active' : ''
-                  }`}
-                  onClick={() => {
-                    dispatch({
-                      type: 'SET_ACTIVE_PAGE_INDEX',
-                      payload: index + 1,
-                    });
-                  }}
-                >
-                  {pageIndex}
-                </Button>
-              );
-            })}
-          </div>
+          <Pagination
+            activePageIndex={activePageIndex}
+            totalPage={Math.ceil(tours.length / cardPerPage)}
+            pageChangeHandle={(index) => {
+              dispatch({
+                type: 'SET_ACTIVE_PAGE_INDEX',
+                payload: index + 1,
+              });
+            }}
+            className="section-tours__pagination"
+          />
         </>
       )}
 

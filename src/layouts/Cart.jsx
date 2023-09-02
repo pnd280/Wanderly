@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 
 import { ImCross } from 'react-icons/im';
 
-import CartItem from '../components/CartItem.jsx';
+import CartItem from '@components/CartItem.jsx';
 import './Cart.scss';
 
 const Cart = ({

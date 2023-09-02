@@ -1,0 +1,19 @@
+
+.pagination {
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: .5rem;
+
+  cursor: pointer;
+
+  & .btn.is-active {
+    background-color: var(--color-primary);
+    color           : var(--color-white);
+  }
+}

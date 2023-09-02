@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-import ImageContainer from '../components/ImageContainer';
+import ImageContainer from '@components/ImageContainer';
 import './About.scss';
 import { useEffect } from 'react';
-import ParagraphWithHeading from '../components/ParagraphWithHeading';
+import ParagraphWithHeading from '@components/ParagraphWithHeading';
 
 const About = () => {
   const [images, setImages] = useState([]);

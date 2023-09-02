@@ -1,4 +1,4 @@
-import TestimonialBox from '../components/TestimonialBox';
+import TestimonialBox from '@components/TestimonialBox';
 
 import './Testimonials.scss';
 
