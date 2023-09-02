@@ -50,7 +50,27 @@
   }
 
   &__cart {
+    position: relative;
+
     & .cart {
+
+      &__count {
+        position: absolute;
+
+        top  : 0;
+        right: 0;
+
+        transform: translate(50%, -50%);
+
+        background-color: var(--color-primary);
+        color           : var(--color-white);
+
+        padding: .3rem;
+
+        border-radius: .375rem;
+
+        z-index: 1;
+      }
 
       &__btn {
         font-size: 2rem;
@@ -66,12 +86,7 @@
 
         background-color: var(--color-primary);
         color           : var(--color-white);
-
-        &:hover {
-          transform: scale(1.1);
-        }
       }
-
     }
   }
 
