@@ -11,12 +11,13 @@ import {
 import axios from 'axios';
 import { BsCart } from 'react-icons/bs';
 
+import Cart from '@/components/Cart';
+import Portal from '@/components/Portal';
 import AppContext from '@/context/AppContext';
 import useArray from '@/hooks/useArray.js';
 import { merchs as mockData } from '@/mock-data';
 import MerchCard from '@components/MerchCard';
 import Pagination from '@components/Pagination';
-import Cart from '@layouts/Cart';
 
 const initialState = {
   activePageIndex: 0,
@@ -133,90 +134,100 @@ const Merchs = () => {
   }, [cartItems]);
 
   return (
-    <div className="section-merchs">
-      <Cart
-        cartItems={cartItems}
-        cartToggle={cartToggle}
-        handleCartToggle={handleCartToggle}
-        handleCartItemsChange={{
-          setCartItems,
-          pushCartItem,
-          filterCartItem,
-          updateCartItem,
-          removeCartItem,
-        }}
-      />
-      <h2 className="heading-secondary" id="merchs">
-        Merchandise
-      </h2>
-      <div className="section-merchs__header">
-        <div className="section-merchs__search-box">
-          <input
-            type="text"
-            className="search-box__input"
-            placeholder="Enter a product name..."
-            value={searchTerm}
-            onChange={(e) => {
-              dispatch({ type: 'SET_SEARCH_TERM', payload: e.target.value });
-            }}
-          />
-        </div>
-        <div className="section-merchs__cart" onClick={handleCartToggle}>
-          {cartItems.length > 0 && (
-            <div className="cart__count">
-              {cartItems.reduce((acc, item) => (item?.quantity ?? 1) + acc, 0)}
+    <>
+      <Portal>
+        <Cart
+          cartItems={cartItems}
+          cartToggle={cartToggle}
+          handleCartToggle={handleCartToggle}
+          handleCartItemsChange={{
+            setCartItems,
+            pushCartItem,
+            filterCartItem,
+            updateCartItem,
+            removeCartItem,
+          }}
+        />
+      </Portal>
+      <div className="section-merchs">
+        <h2 className="heading-secondary" id="merchs">
+          Merchandise
+        </h2>
+        <div className="section-merchs__header">
+          <div className="section-merchs__search-box">
+            <input
+              type="text"
+              className="search-box__input"
+              placeholder="Enter a product name..."
+              value={searchTerm}
+              onChange={(e) => {
+                dispatch({ type: 'SET_SEARCH_TERM', payload: e.target.value });
+              }}
+            />
+          </div>
+          <div className="section-merchs__cart" onClick={handleCartToggle}>
+            {cartItems.length > 0 && (
+              <div className="cart__count">
+                {cartItems.reduce(
+                  (acc, item) => (item?.quantity ?? 1) + acc,
+                  0
+                )}
+              </div>
+            )}
+            <div className="cart__btn">
+              <BsCart />
             </div>
-          )}
-          <div className="cart__btn">
-            <BsCart />
           </div>
         </div>
+        <div className="section-merchs__merch-container">
+          {merchs.map((merch) => (
+            <MerchCard
+              key={merch.id}
+              merch={merch}
+              show={displayMerchIds.includes(merch.id)}
+              addToCartHandle={() => {
+                const itemIndexInCart = cartItems.findIndex(
+                  (item) => item.id === merch.id
+                );
+
+                itemIndexInCart < 0
+                  ? pushCartItem(merch)
+                  : updateCartItem(itemIndexInCart, {
+                      ...merch,
+                      quantity: (cartItems[itemIndexInCart]?.quantity ?? 1) + 1,
+                    });
+              }}
+            />
+          ))}
+        </div>
+
+        {searchTerm.length < 1 && (
+          <>
+            <div
+              className="btn-text show-more-less"
+              onClick={() => {
+                let newCardPerPage = cardPerPage == 3 ? 6 : 3;
+
+                dispatch({
+                  type: 'SET_CARD_PER_PAGE',
+                  payload: newCardPerPage,
+                });
+              }}
+            >
+              Show {cardPerPage == 3 ? 'more' : 'less'}
+            </div>
+            <Pagination
+              className="section-merchs__pagination"
+              activePageIndex={activePageIndex}
+              totalPage={Math.ceil(merchs.length / cardPerPage)}
+              pageChangeHandle={(index) => {
+                dispatch({ type: 'SET_ACTIVE_PAGE_INDEX', payload: index + 1 });
+              }}
+            />
+          </>
+        )}
       </div>
-      <div className="section-merchs__merch-container">
-        {merchs.map((merch) => (
-          <MerchCard
-            key={merch.id}
-            merch={merch}
-            show={displayMerchIds.includes(merch.id)}
-            addToCartHandle={() => {
-              const itemIndexInCart = cartItems.findIndex(
-                (item) => item.id === merch.id
-              );
-
-              itemIndexInCart < 0
-                ? pushCartItem(merch)
-                : updateCartItem(itemIndexInCart, {
-                    ...merch,
-                    quantity: (cartItems[itemIndexInCart]?.quantity ?? 1) + 1,
-                  });
-            }}
-          />
-        ))}
-      </div>
-
-      {searchTerm.length < 1 && (
-        <>
-          <div
-            className="btn-text show-more-less"
-            onClick={() => {
-              let newCardPerPage = cardPerPage == 3 ? 6 : 3;
-
-              dispatch({ type: 'SET_CARD_PER_PAGE', payload: newCardPerPage });
-            }}
-          >
-            Show {cardPerPage == 3 ? 'more' : 'less'}
-          </div>
-          <Pagination
-            className="section-merchs__pagination"
-            activePageIndex={activePageIndex}
-            totalPage={Math.ceil(merchs.length / cardPerPage)}
-            pageChangeHandle={(index) => {
-              dispatch({ type: 'SET_ACTIVE_PAGE_INDEX', payload: index + 1 });
-            }}
-          />
-        </>
-      )}
-    </div>
+    </>
   );
 };
 

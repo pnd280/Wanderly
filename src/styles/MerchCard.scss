@@ -15,12 +15,8 @@
 
   overflow: hidden;
 
-  max-width: 25rem;
-  min-width: 25rem;
-
   @media (max-width: 640px) {
-    max-width: 90vw;
-    min-width: 90vw;
+    width: 90vw;
   }
 
   &__heading {
