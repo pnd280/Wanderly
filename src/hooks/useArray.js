@@ -3,7 +3,7 @@ import {
   useState,
 } from 'react';
 
-const useArray = (initialValue, debugValue = "") => {
+const useArray = (initialValue, debugValue = '') => {
   const [array, setArray] = useState(initialValue);
 
   const push = (element) => {
@@ -32,7 +32,7 @@ const useArray = (initialValue, debugValue = "") => {
 
   useDebugValue(`${debugValue} (${array.length})`);
 
-  return [array, setArray, push, filter, update, remove, clear];
+  return { array, setArray, push, filter, update, remove, clear };
 };
 
 export default useArray;

@@ -15,7 +15,7 @@ import AppContext from './context/AppContext';
 import useArray from './hooks/useArray';
 
 const App = () => {
-  const [merchs, setMerchs] = useArray([]);
+  const { array: merchs, setArray: setMerchs } = useArray([]);
   const [merchFetched, setMerchFetched] = useState(false);
 
   return (

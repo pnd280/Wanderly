@@ -14,7 +14,7 @@ import { BsCart } from 'react-icons/bs';
 import Cart from '@/components/Cart';
 import Portal from '@/components/Portal';
 import AppContext from '@/context/AppContext';
-import useArray from '@/hooks/useArray.js';
+import useArrayLocalStorage from '@/hooks/useArrayLocalStorage';
 import { merchs as mockData } from '@/mock-data';
 import MerchCard from '@components/MerchCard';
 import Pagination from '@components/Pagination';
@@ -53,20 +53,19 @@ const Merchs = () => {
   const { merchs, setMerchs, setMerchFetched } = useContext(AppContext);
 
   const [cartToggle, setCartToggle] = useState(false);
-  const [cartFetched, setCartFetched] = useState(false);
 
   const handleCartToggle = () => {
     setCartToggle((prevState) => !prevState);
   };
 
-  const [
-    cartItems,
-    setCartItems,
-    pushCartItem,
-    filterCartItem,
-    updateCartItem,
-    removeCartItem,
-  ] = useArray([]);
+  const {
+    storedValue: cart,
+    setValue: setCart,
+    push: pushCartItem,
+    filter: filterCartItem,
+    update: updateCartItem,
+    remove: removeCartItem,
+  } = useArrayLocalStorage('cart');
 
   const [{ activePageIndex, cardPerPage, searchTerm }, dispatch] = useReducer(
     reducer,
@@ -88,12 +87,6 @@ const Merchs = () => {
     return fetchedMerchs;
   };
 
-  const fetchCartItems = () => {
-    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-
-    return cartItems;
-  };
-
   const displayMerchIds = useMemo(() => {
     return searchTerm.length > 0
       ? merchs
@@ -112,11 +105,6 @@ const Merchs = () => {
       setMerchs(fetchedMerchs);
       setMerchFetched(true);
 
-      const fetchedCartItems = fetchCartItems();
-      setCartItems(fetchedCartItems);
-
-      setCartFetched(true);
-
       dispatch({ type: 'SET_ACTIVE_PAGE_INDEX', payload: 1 });
     })();
   }, []);
@@ -129,19 +117,15 @@ const Merchs = () => {
       });
   }, [cardPerPage]);
 
-  useEffect(() => {
-    cartFetched && localStorage.setItem('cartItems', JSON.stringify(cartItems));
-  }, [cartItems]);
-
   return (
     <>
       <Portal>
         <Cart
-          cartItems={cartItems}
+          cartItems={cart}
           cartToggle={cartToggle}
           handleCartToggle={handleCartToggle}
           handleCartItemsChange={{
-            setCartItems,
+            setCartItems: setCart,
             pushCartItem,
             filterCartItem,
             updateCartItem,
@@ -166,12 +150,9 @@ const Merchs = () => {
             />
           </div>
           <div className="section-merchs__cart" onClick={handleCartToggle}>
-            {cartItems.length > 0 && (
+            {cart.length > 0 && (
               <div className="cart__count">
-                {cartItems.reduce(
-                  (acc, item) => (item?.quantity ?? 1) + acc,
-                  0
-                )}
+                {cart.reduce((acc, item) => (item?.quantity ?? 1) + acc, 0)}
               </div>
             )}
             <div className="cart__btn">
@@ -186,7 +167,7 @@ const Merchs = () => {
               merch={merch}
               show={displayMerchIds.includes(merch.id)}
               addToCartHandle={() => {
-                const itemIndexInCart = cartItems.findIndex(
+                const itemIndexInCart = cart.findIndex(
                   (item) => item.id === merch.id
                 );
 
@@ -194,7 +175,7 @@ const Merchs = () => {
                   ? pushCartItem(merch)
                   : updateCartItem(itemIndexInCart, {
                       ...merch,
-                      quantity: (cartItems[itemIndexInCart]?.quantity ?? 1) + 1,
+                      quantity: (cart[itemIndexInCart]?.quantity ?? 1) + 1,
                     });
               }}
             />

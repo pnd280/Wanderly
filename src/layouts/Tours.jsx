@@ -13,6 +13,7 @@ import axios from 'axios';
 
 import AppContext from '@/context/AppContext';
 import useArray from '@/hooks/useArray';
+import useArrayLocalStorage from '@/hooks/useArrayLocalStorage';
 import { tours as mockData } from '@/mock-data.js';
 import Pagination from '@components/Pagination';
 import Slider from '@components/Slider';
@@ -63,9 +64,17 @@ const reducer = (state, action) => {
 const Tours = () => {
   const { merchs, merchFetched } = useContext(AppContext);
 
-  const [tours, setTours] = useArray([], 'tours');
-  const [favoriteTours, setFavoriteTours] = useArray([], 'favoriteTours');
-  const [freeMerchs, setFreeMerchs] = useArray([], 'freeMerchs');
+  const { array: tours, setArray: setTours } = useArray([], 'tours');
+  const {
+    storedValue: favoriteTours,
+    setValue: setFavoriteTours,
+    push: addFavoriteTour,
+    remove: removeFavoriteTour,
+  } = useArrayLocalStorage('favoriteTours');
+  const { array: freeMerchs, setArray: setFreeMerchs } = useArray(
+    [],
+    'freeMerchs'
+  );
 
   const [
     { priceToggle, activePageIndex, cardPerPage, searchTerm, showOnlyFavorite },
@@ -88,22 +97,18 @@ const Tours = () => {
     return fetchedTours;
   };
 
-  const fetchFavoriteTours = () => {
-    const fetchedList = JSON.parse(localStorage.getItem('favoriteTours'));
-    return fetchedList?.length > 0 ? fetchedList : [];
-  };
+  const setFavoriteToggle = useCallback(
+    (tourId) => {
+      const index = favoriteTours.findIndex((id) => id === tourId);
 
-  const setFavorite = useCallback((tourId) => {
-    setFavoriteTours((favoriteTours) => {
-      const newList = favoriteTours.includes(tourId)
-        ? favoriteTours.filter((v) => v !== tourId)
-        : favoriteTours.concat([tourId]);
-
-      localStorage.setItem('favoriteTours', JSON.stringify(newList));
-
-      return newList;
-    });
-  }, []);
+      if (index > -1) {
+        removeFavoriteTour(index);
+      } else {
+        addFavoriteTour(tourId);
+      }
+    },
+    [favoriteTours]
+  );
 
   const displayedTours = useMemo(() => {
     if (showOnlyFavorite) {
@@ -133,9 +138,6 @@ const Tours = () => {
     (async () => {
       const fetchedTours = await fetchTours();
       setTours(fetchedTours);
-
-      const fetchedFavoriteTours = fetchFavoriteTours();
-      setFavoriteTours(fetchedFavoriteTours);
 
       dispatch({ type: 'SET_ACTIVE_PAGE_INDEX', payload: 1 });
     })();
@@ -195,7 +197,7 @@ const Tours = () => {
                 tour={tour}
                 priceToggle={priceToggle}
                 isFavorited={favoriteTours.includes(tour.id)}
-                setFavorite={setFavorite}
+                setFavoriteToggle={setFavoriteToggle}
                 show={displayedTours.includes(tour.id)}
                 freeMerch={freeMerchs[index]}
               />
