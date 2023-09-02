@@ -1,16 +1,22 @@
-import { useEffect, useState, useReducer, useMemo, useCallback } from 'react';
+import '@styles/Merchs.scss';
 
-import useArray from '@/hooks/useArray.js';
+import {
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from 'react';
 
+import axios from 'axios';
 import { BsCart } from 'react-icons/bs';
 
-import '@layouts/Merchs.scss';
-
-import { merchs as mockData } from '../mock-data';
-import axios from 'axios';
-import Cart from './Cart';
+import AppContext from '@/context/AppContext';
+import useArray from '@/hooks/useArray.js';
+import { merchs as mockData } from '@/mock-data';
 import MerchCard from '@components/MerchCard';
 import Pagination from '@components/Pagination';
+import Cart from '@layouts/Cart';
 
 const initialState = {
   activePageIndex: 0,
@@ -43,7 +49,7 @@ const reducer = (state, action) => {
 };
 
 const Merchs = () => {
-  const [merchs, setMerchs] = useState([]);
+  const { merchs, setMerchs, setMerchFetched } = useContext(AppContext);
 
   const [cartToggle, setCartToggle] = useState(false);
   const [cartFetched, setCartFetched] = useState(false);
@@ -66,32 +72,26 @@ const Merchs = () => {
     initialState
   );
 
-  const fetchCartItems = () => {
-    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
-    setCartItems(cartItems);
+  const fetchMerchs = async () => {
+    console.log('fetching merchs...');
 
-    setCartFetched(true);
+    let fetchedMerchs = [];
+
+    try {
+      const response = await axios.get('http://127.0.0.1:28000/merchs/all');
+      fetchedMerchs = response.data;
+    } catch (error) {
+      fetchedMerchs = mockData;
+    }
+
+    return fetchedMerchs;
   };
 
-  useEffect(() => {
-    (async () => {
-      console.log('fetching merchs...');
+  const fetchCartItems = () => {
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
 
-      let fetchedMerchs = [];
-
-      try {
-        const response = await axios.get('http://127.0.0.1:28000/merchs/all');
-        fetchedMerchs = response.data;
-      } catch (error) {
-        fetchedMerchs = mockData;
-      }
-
-      setMerchs(fetchedMerchs);
-      dispatch({ type: 'SET_ACTIVE_PAGE_INDEX', payload: 1 });
-
-      fetchCartItems();
-    })();
-  }, []);
+    return cartItems;
+  };
 
   const displayMerchIds = useMemo(() => {
     return searchTerm.length > 0
@@ -104,6 +104,21 @@ const Merchs = () => {
           return 1 + (activePageIndex - 1) * cardPerPage + i;
         });
   }, [activePageIndex, searchTerm, cardPerPage]);
+
+  useEffect(() => {
+    (async () => {
+      const fetchedMerchs = await fetchMerchs();
+      setMerchs(fetchedMerchs);
+      setMerchFetched(true);
+
+      const fetchedCartItems = fetchCartItems();
+      setCartItems(fetchedCartItems);
+
+      setCartFetched(true);
+
+      dispatch({ type: 'SET_ACTIVE_PAGE_INDEX', payload: 1 });
+    })();
+  }, []);
 
   useEffect(() => {
     activePageIndex > Math.ceil(merchs.length / cardPerPage) &&

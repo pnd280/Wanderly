@@ -1,5 +1,6 @@
-import Button from './Button';
-import './Hero.scss';
+import '@styles/Hero.scss';
+
+import Button from '@components/Button';
 
 const Hero = () => {
   return (

@@ -1,8 +1,14 @@
-import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
-import { IoLocationOutline } from 'react-icons/io5';
-import { FiPhone } from 'react-icons/fi';
+import '@styles/Footer.scss';
 
-import './Footer.scss';
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaTwitter,
+  FaYoutube,
+} from 'react-icons/fa';
+import { FiPhone } from 'react-icons/fi';
+import { IoLocationOutline } from 'react-icons/io5';
+
 import NavList from '@components/NavList';
 
 const Footer = () => {

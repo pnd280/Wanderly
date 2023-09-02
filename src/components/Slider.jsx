@@ -1,6 +1,6 @@
-import { PropTypes } from 'prop-types';
+import '@styles/Slider.scss';
 
-import './Slider.scss';
+import { PropTypes } from 'prop-types';
 
 const Slider = ({ label, onClick }) => {
   return (

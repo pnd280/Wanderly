@@ -1,5 +1,6 @@
-import { PropTypes } from 'prop-types';
 import { memo } from 'react';
+
+import { PropTypes } from 'prop-types';
 
 const Button = memo(function Button({
   href,
@@ -19,10 +20,10 @@ const Button = memo(function Button({
 });
 
 Button.propTypes = {
-  href: PropTypes.string.isOptional,
+  href: PropTypes.string,
   children: PropTypes.any.isRequired,
-  className: PropTypes.string.isOptional,
-  onClick: PropTypes.func.isOptional,
+  className: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 export default Button;

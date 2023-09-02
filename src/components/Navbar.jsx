@@ -1,6 +1,6 @@
-import NavList from './NavList';
+import '@styles/Navbar.scss';
 
-import './Navbar.scss';
+import NavList from '@components/NavList';
 
 const Navbar = () => {
   const links = [

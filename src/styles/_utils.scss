@@ -1,0 +1,55 @@
+@import "@styles/_mixins.scss";
+@import "@styles/_animations.scss";
+@import "@styles/_typography.scss";
+
+.u-text-highlight {
+  color: var(--color-primary);
+}
+
+.btn {
+  padding: 1.2rem;
+
+  text-decoration: none;
+
+  color           : var(--color-black);
+  background-color: var(--color-white);
+
+  font-family: var(--font-mono);
+
+  border-radius: 0.5rem;
+
+  text-align: center;
+
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  transition: transform 0.2s,
+  color 0.2s,
+  background-color 0.2s;
+}
+
+.btn-text {
+
+  &:link,
+  &:visited {
+    text-decoration: none;
+    color          : var(--color-primary);
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  cursor: pointer;
+}
+
+.height-collapsed {
+  max-height: 0px;
+}
+
+.height-expanded {
+  max-height: 100rem;
+}

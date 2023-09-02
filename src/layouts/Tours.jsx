@@ -1,15 +1,22 @@
-import { useState, useMemo, useRef, useReducer, useCallback } from 'react';
+import '@styles/Tours.scss';
+
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+} from 'react';
+
 import axios from 'axios';
 
-import TourCard from '@components/TourCard';
-
-import './Tours.scss';
-import { useEffect } from 'react';
-import Slider from '@components/Slider';
-
-import { tours as mockData, merchs } from '../mock-data.js';
-import Button from '@components/Button';
+import AppContext from '@/context/AppContext';
+import useArray from '@/hooks/useArray';
+import { tours as mockData } from '@/mock-data.js';
 import Pagination from '@components/Pagination';
+import Slider from '@components/Slider';
+import TourCard from '@components/TourCard';
 
 const initialState = {
   priceToggle: false,
@@ -54,8 +61,11 @@ const reducer = (state, action) => {
 };
 
 const Tours = () => {
-  const [tours, setTours] = useState([]);
-  const [favoriteTours, setFavoriteTours] = useState([]);
+  const { merchs, merchFetched } = useContext(AppContext);
+
+  const [tours, setTours] = useArray([], 'tours');
+  const [favoriteTours, setFavoriteTours] = useArray([], 'favoriteTours');
+  const [freeMerchs, setFreeMerchs] = useArray([], 'freeMerchs');
 
   const [
     { priceToggle, activePageIndex, cardPerPage, searchTerm, showOnlyFavorite },
@@ -64,59 +74,24 @@ const Tours = () => {
 
   const searchBoxRef = useRef(null);
 
-  useEffect(() => {
-    (async () => {
-      console.log('fetching tours...');
+  const fetchTours = async () => {
+    console.log('fetching tours...');
+    let fetchedTours = [];
 
-      let fetchedTours = [];
-
-      try {
-        const response = await axios.get('http://127.0.0.1:28000/tours/all');
-        fetchedTours = response.data;
-      } catch (error) {
-        fetchedTours = mockData;
-      }
-
-      setTours(fetchedTours);
-      dispatch({ type: 'SET_ACTIVE_PAGE_INDEX', payload: 1 });
-
-      // fetch favorite list
-      const fetchedList = JSON.parse(localStorage.getItem('favoriteTours'));
-      fetchedList?.length > 0 && setFavoriteTours(fetchedList);
-    })();
-  }, []);
-
-  const displayedTours = useMemo(() => {
-    if (showOnlyFavorite) {
-      return tours
-        .filter((tour) => favoriteTours.includes(tour.id))
-        .map((tour) => tour.id);
+    try {
+      const response = await axios.get('http://127.0.0.1:28000/tours/all');
+      fetchedTours = response.data;
+    } catch (error) {
+      fetchedTours = mockData;
     }
 
-    return searchTerm.length > 0
-      ? tours
-          .filter((merch) =>
-            merch.name.toLowerCase().includes(searchTerm.toLowerCase())
-          )
-          .map((merch) => merch.id)
-      : Array.from({ length: cardPerPage }, (_, i) => {
-          return 1 + (activePageIndex - 1) * cardPerPage + i;
-        });
-  }, [
-    activePageIndex,
-    searchTerm,
-    cardPerPage,
-    showOnlyFavorite,
-    favoriteTours,
-  ]);
+    return fetchedTours;
+  };
 
-  useEffect(() => {
-    activePageIndex > Math.ceil(tours.length / cardPerPage) &&
-      dispatch({
-        type: 'SET_ACTIVE_PAGE_INDEX',
-        payload: Math.ceil(tours.length / cardPerPage),
-      });
-  }, [cardPerPage]);
+  const fetchFavoriteTours = () => {
+    const fetchedList = JSON.parse(localStorage.getItem('favoriteTours'));
+    return fetchedList?.length > 0 ? fetchedList : [];
+  };
 
   const setFavorite = useCallback((tourId) => {
     setFavoriteTours((favoriteTours) => {
@@ -129,6 +104,59 @@ const Tours = () => {
       return newList;
     });
   }, []);
+
+  const displayedTours = useMemo(() => {
+    if (showOnlyFavorite) {
+      return tours
+        .filter((tour) => favoriteTours.includes(tour.id))
+        .map((tour) => tour.id);
+    }
+
+    return searchTerm.length > 0
+      ? tours
+          .filter((tour) =>
+            tour.name.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+          .map((tour) => tour.id)
+      : Array.from({ length: cardPerPage }, (_, i) => {
+          return 1 + (activePageIndex - 1) * cardPerPage + i;
+        });
+  }, [
+    activePageIndex,
+    searchTerm,
+    cardPerPage,
+    showOnlyFavorite,
+    favoriteTours,
+  ]);
+
+  useEffect(() => {
+    (async () => {
+      const fetchedTours = await fetchTours();
+      setTours(fetchedTours);
+
+      const fetchedFavoriteTours = fetchFavoriteTours();
+      setFavoriteTours(fetchedFavoriteTours);
+
+      dispatch({ type: 'SET_ACTIVE_PAGE_INDEX', payload: 1 });
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (merchFetched) {
+      setFreeMerchs(
+        tours.map(() => merchs[Math.floor(Math.random() * merchs.length)].name)
+      );
+    }
+  }, [merchs]);
+
+  // navigate to the last page if the current page is out of range after changing card per page
+  useEffect(() => {
+    activePageIndex > Math.ceil(tours.length / cardPerPage) &&
+      dispatch({
+        type: 'SET_ACTIVE_PAGE_INDEX',
+        payload: Math.ceil(tours.length / cardPerPage),
+      });
+  }, [cardPerPage]);
 
   return (
     <section className="section-tours">
@@ -169,7 +197,7 @@ const Tours = () => {
                 isFavorited={favoriteTours.includes(tour.id)}
                 setFavorite={setFavorite}
                 show={displayedTours.includes(tour.id)}
-                freeMerch={merchs[Math.floor(Math.random() * merchs.length)]}
+                freeMerch={freeMerchs[index]}
               />
             );
           })

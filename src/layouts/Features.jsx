@@ -1,9 +1,13 @@
-import { IoExtensionPuzzleOutline, IoCompassOutline, IoLeafOutline } from 'react-icons/io5';
+import '@styles/Features.scss';
+
+import {
+  IoCompassOutline,
+  IoExtensionPuzzleOutline,
+  IoLeafOutline,
+} from 'react-icons/io5';
 import { LuHotel } from 'react-icons/lu';
 
 import FeatureBox from '@components/FeatureBox';
-
-import './Features.scss';
 
 const Features = () => {
   const features = [

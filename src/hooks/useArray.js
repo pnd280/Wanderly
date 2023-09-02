@@ -1,6 +1,9 @@
-import { useState, useDebugValue } from 'react';
+import {
+  useDebugValue,
+  useState,
+} from 'react';
 
-const useArray = (initialValue) => {
+const useArray = (initialValue, debugValue = "") => {
   const [array, setArray] = useState(initialValue);
 
   const push = (element) => {
@@ -27,9 +30,8 @@ const useArray = (initialValue) => {
     setArray([]);
   };
 
-  useDebugValue('cartItems');
+  useDebugValue(`${debugValue} (${array.length})`);
 
-  // return { array, setArray, push, filter, update, remove, clear };
   return [array, setArray, push, filter, update, remove, clear];
 };
 

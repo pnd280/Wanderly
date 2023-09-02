@@ -1,9 +1,11 @@
-import { useState, useMemo } from 'react';
+import '@styles/Cart.scss';
 
+import { useMemo } from 'react';
+
+import { PropTypes } from 'prop-types';
 import { ImCross } from 'react-icons/im';
 
 import CartItem from '@components/CartItem.jsx';
-import './Cart.scss';
 
 const Cart = ({
   cartItems,
@@ -52,6 +54,13 @@ const Cart = ({
       </div>
     </div>
   );
+};
+
+Cart.propTypes = {
+  cartItems: PropTypes.array.isRequired,
+  cartToggle: PropTypes.bool.isRequired,
+  handleCartToggle: PropTypes.func.isRequired,
+  handleCartItemsChange: PropTypes.object.isRequired,
 };
 
 export default Cart;

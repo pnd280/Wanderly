@@ -1,6 +1,8 @@
+import '@styles/Pagination.scss';
 
-import Button from "./Button";
-import "./Pagination.scss";
+import { PropTypes } from 'prop-types';
+
+import Button from '@components/Button';
 
 const Pagination = ({
   activePageIndex,
@@ -29,6 +31,13 @@ const Pagination = ({
       )}
     </div>
   );
+};
+
+Pagination.propTypes = {
+  activePageIndex: PropTypes.number,
+  totalPage: PropTypes.number,
+  pageChangeHandle: PropTypes.func,
+  className: PropTypes.string,
 };
 
 export default Pagination;

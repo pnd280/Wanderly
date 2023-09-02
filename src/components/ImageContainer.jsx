@@ -1,6 +1,6 @@
-import { PropTypes } from 'prop-types';
+import '@styles/ImageContainer.scss';
 
-import './ImageContainer.scss';
+import { PropTypes } from 'prop-types';
 
 const ImageContainer = ({ src, alt, className }) => {
   return (

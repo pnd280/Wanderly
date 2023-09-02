@@ -1,7 +1,8 @@
-import { PropTypes } from 'prop-types';
-import ParagraphWithHeading from './ParagraphWithHeading';
+import '@styles/FeatureBox.scss';
 
-import "./FeatureBox.scss";
+import { PropTypes } from 'prop-types';
+
+import ParagraphWithHeading from '@components/ParagraphWithHeading';
 
 const FeatureBox = ({ icon, title, description }) => {
   return (

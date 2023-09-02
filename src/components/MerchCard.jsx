@@ -1,7 +1,8 @@
-import { PropTypes } from 'prop-types';
+import '@styles/MerchCard.scss';
 
-import './MerchCard.scss';
 import { memo } from 'react';
+
+import { PropTypes } from 'prop-types';
 
 const MerchCard = memo(function MerchCard({ merch, show, addToCartHandle }) {
   return (
@@ -24,6 +25,8 @@ const MerchCard = memo(function MerchCard({ merch, show, addToCartHandle }) {
 
 MerchCard.propTypes = {
   merch: PropTypes.object.isRequired,
+  show: PropTypes.bool.isRequired,
+  addToCartHandle: PropTypes.func.isRequired,
 };
 
 export default MerchCard;

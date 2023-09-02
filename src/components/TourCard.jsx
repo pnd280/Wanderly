@@ -1,10 +1,12 @@
-import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai';
-
-import { PropTypes } from 'prop-types';
-
-import './TourCard.scss';
+import '@styles/TourCard.scss';
 
 import { memo } from 'react';
+
+import { PropTypes } from 'prop-types';
+import {
+  AiFillHeart,
+  AiOutlineHeart,
+} from 'react-icons/ai';
 
 const TourCard = memo(function TourCard({
   tour,
@@ -55,9 +57,15 @@ const TourCard = memo(function TourCard({
             <li className="tour-card__list-item">
               {tour.details.min} - {tour.details.max} people
             </li>
-            <li onClick={() => {
-              document.getElementById('merchs').scrollIntoView({ behavior: 'smooth' });
-            }}>🎁 {freeMerch.name}</li>
+            <li
+              onClick={() => {
+                document
+                  .getElementById('merchs')
+                  .scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              🎁 {freeMerch}
+            </li>
           </ul>
         </div>
       </div>
@@ -81,6 +89,7 @@ TourCard.propTypes = {
   isFavorited: PropTypes.bool.isRequired,
   setFavorite: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
+  freeMerch: PropTypes.string,
 };
 
 export default TourCard;

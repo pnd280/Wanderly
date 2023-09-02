@@ -1,7 +1,8 @@
+import '@styles/TestimonialBox.scss';
+
 import { PropTypes } from 'prop-types';
 
-import './TestimonialBox.scss';
-import ParagraphWithHeading from './ParagraphWithHeading';
+import ParagraphWithHeading from '@components/ParagraphWithHeading';
 
 const TestimonialBox = ({ testimonial }) => {
   return (

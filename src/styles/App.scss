@@ -1,4 +1,4 @@
-@import "./utils.scss";
+@import "@styles/_utils.scss";
 
 * {
 
@@ -49,12 +49,12 @@ body {
 
 @font-face {
   font-family: "Recursive Sans Casual Static";
-  src: url('./assets/fonts/Recursive_VF_1.085.woff2');
+  src: url('../assets/fonts/Recursive_VF_1.085.woff2');
 }
 
 @font-face {
   font-family: "Recursive Mono Casual Static";
-  src: url('./assets/fonts/Recursive_VF_1.085.woff2');
+  src: url('../assets/fonts/Recursive_VF_1.085.woff2');
 }
 
 :root {

@@ -1,7 +1,11 @@
-import { RxCrossCircled } from 'react-icons/rx';
-import { HiMinusSm, HiPlusSm } from 'react-icons/hi';
+import '@styles/CartItem.scss';
 
-import './CartItem.scss';
+import { PropTypes } from 'prop-types';
+import {
+  HiMinusSm,
+  HiPlusSm,
+} from 'react-icons/hi';
+import { RxCrossCircled } from 'react-icons/rx';
 
 const CartItem = ({ item, handleCartItemsChange, itemIndex }) => {
   return (
@@ -52,5 +56,11 @@ const CartItem = ({ item, handleCartItemsChange, itemIndex }) => {
     </div>
   );
 };
+
+CartItem.propTypes = {
+  item: PropTypes.object.isRequired,
+  handleCartItemsChange: PropTypes.object.isRequired,
+  itemIndex: PropTypes.number.isRequired,
+}
 
 export default CartItem;

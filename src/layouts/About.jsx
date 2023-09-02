@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import '@styles/About.scss';
+
+import {
+  useEffect,
+  useState,
+} from 'react';
 
 import ImageContainer from '@components/ImageContainer';
-import './About.scss';
-import { useEffect } from 'react';
 import ParagraphWithHeading from '@components/ParagraphWithHeading';
 
 const About = () => {

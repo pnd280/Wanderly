@@ -1,6 +1,6 @@
-import TestimonialBox from '@components/TestimonialBox';
+import '@styles/Testimonials.scss';
 
-import './Testimonials.scss';
+import TestimonialBox from '@components/TestimonialBox';
 
 const Testimonials = () => {
   const testimonials = [
@@ -29,14 +29,21 @@ const Testimonials = () => {
 
   return (
     <section className="section-testimonials">
-      <h2 className="section-testimonials__heading heading-secondary" id="stories">
+      <h2
+        className="section-testimonials__heading heading-secondary"
+        id="stories"
+      >
         We bring people happiness
       </h2>
       <div className="section-testimonials__testimonial-container">
         {testimonials.map((testimonial, key) => {
           return <TestimonialBox testimonial={testimonial} key={key} />;
         })}
-        <div className="cta-text-claim">satisfaction guaranteed by <span className="u-text-highlight">4321+</span> groups & individuals 👏🏻</div>
+        <div className="cta-text-claim">
+          satisfaction guaranteed by{' '}
+          <span className="u-text-highlight">4321+</span> groups & individuals
+          👏🏻
+        </div>
       </div>
     </section>
   );

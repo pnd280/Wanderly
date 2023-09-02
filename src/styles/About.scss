@@ -1,4 +1,4 @@
-@import "../mixins.scss";
+@import "@styles/mixins.scss";
 
 .section-about {
   margin    : 0 5rem;
@@ -15,6 +15,14 @@
     margin: 0 2rem;
   }
 
+  & h2 {
+    text-align: center;
+
+    @media (max-width: 640px) {
+      margin-top: 3rem;
+    }
+  }
+
   &>div {
     margin-top: 5rem;
     display   : flex;
@@ -24,14 +32,6 @@
 
     @media (max-width: 940px) {
       flex-direction: column;
-    }
-  }
-
-  & h2 {
-    text-align: center;
-
-    @media (max-width: 640px) {
-      margin-top: 3rem;
     }
   }
 
@@ -68,7 +68,6 @@
 
   &__img-gallery {
     width: 50%;
-
 
     position: relative;
 
@@ -125,17 +124,4 @@
     height: 20rem;
   }
 
-}
-
-@media (max-width: 940px) {
-
-  .image-container,
-  .image-container:last-of-type {
-    position: relative;
-
-    top : 0;
-    left: 0;
-
-    max-width: 47%;
-  }
 }
