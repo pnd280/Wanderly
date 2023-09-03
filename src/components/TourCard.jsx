@@ -57,15 +57,17 @@ const TourCard = memo(function TourCard({
             <li className="tour-card__list-item">
               {tour.details.min} - {tour.details.max} people
             </li>
-            <li
-              onClick={() => {
-                document
-                  .getElementById('merchs')
-                  .scrollIntoView({ behavior: 'smooth' });
-              }}
-            >
-              🎁 {freeMerch}
-            </li>
+            {freeMerch && (
+              <li
+                onClick={() => {
+                  document
+                    .getElementById('merchs')
+                    .scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                🎁 {freeMerch}
+              </li>
+            )}
           </ul>
         </div>
       </div>

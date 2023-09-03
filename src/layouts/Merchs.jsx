@@ -8,13 +8,13 @@ import {
   useState,
 } from 'react';
 
-import axios from 'axios';
 import { BsCart } from 'react-icons/bs';
 
 import Cart from '@/components/Cart';
 import Portal from '@/components/Portal';
 import AppContext from '@/context/AppContext';
 import useArrayLocalStorage from '@/hooks/useArrayLocalStorage';
+import useFetch from '@/hooks/useFetch';
 import { merchs as mockData } from '@/mock-data';
 import MerchCard from '@components/MerchCard';
 import Pagination from '@components/Pagination';
@@ -72,18 +72,11 @@ const Merchs = () => {
     initialState
   );
 
-  const fetchMerchs = async () => {
-    let fetchedMerchs = [];
-
-    try {
-      const response = await axios.get('http://127.0.0.1:28000/merchs/all');
-      fetchedMerchs = response.data;
-    } catch (error) {
-      fetchedMerchs = mockData;
-    }
-
-    return fetchedMerchs;
-  };
+  const {
+    response: fetchedMerchs,
+    loading,
+    error,
+  } = useFetch('http://127.0.0.1:28000/merchs/all');
 
   const displayMerchIds = useMemo(() => {
     return searchTerm.length > 0
@@ -98,12 +91,11 @@ const Merchs = () => {
   }, [searchTerm, merchs, cardPerPage, activePageIndex]);
 
   useEffect(() => {
-    (async () => {
-      const fetchedMerchs = await fetchMerchs();
-      setMerchs(fetchedMerchs);
-      merchFetched.current = true;
-    })();
-  }, [merchFetched, setMerchs]);
+    fetchedMerchs?.length > 0 && setMerchs(fetchedMerchs);
+    error && setMerchs(mockData);
+
+    (fetchedMerchs?.length > 0 || error) && (merchFetched.current = true);
+  }, [merchFetched, setMerchs, error, fetchedMerchs]);
 
   useEffect(() => {
     merchs.length > 0 &&
@@ -160,42 +152,46 @@ const Merchs = () => {
           </div>
         </div>
         <div className="section-merchs__merch-container">
-          {merchs.map((merch) => (
-            <MerchCard
-              key={merch.id}
-              merch={merch}
-              show={displayMerchIds.includes(merch.id)}
-              addToCartHandle={() => {
-                const itemIndexInCart = cart.findIndex(
-                  (item) => item.id === merch.id
-                );
+          {loading
+            ? 'Loading... 🚀'
+            : merchs.map((merch) => (
+                <MerchCard
+                  key={merch.id}
+                  merch={merch}
+                  show={displayMerchIds.includes(merch.id)}
+                  addToCartHandle={() => {
+                    const itemIndexInCart = cart.findIndex(
+                      (item) => item.id === merch.id
+                    );
 
-                itemIndexInCart < 0
-                  ? pushCartItem(merch)
-                  : updateCartItem(itemIndexInCart, {
-                      ...merch,
-                      quantity: (cart[itemIndexInCart]?.quantity ?? 1) + 1,
-                    });
-              }}
-            />
-          ))}
+                    itemIndexInCart < 0
+                      ? pushCartItem(merch)
+                      : updateCartItem(itemIndexInCart, {
+                          ...merch,
+                          quantity: (cart[itemIndexInCart]?.quantity ?? 1) + 1,
+                        });
+                  }}
+                />
+              ))}
         </div>
 
         {searchTerm.length < 1 && (
           <>
-            <div
-              className="btn-text show-more-less"
-              onClick={() => {
-                let newCardPerPage = cardPerPage == 3 ? 6 : 3;
+            {Math.ceil(merchs.length / cardPerPage) > 1 && (
+              <div
+                className="btn-text show-more-less"
+                onClick={() => {
+                  let newCardPerPage = cardPerPage == 3 ? 6 : 3;
 
-                dispatch({
-                  type: 'SET_CARD_PER_PAGE',
-                  payload: newCardPerPage,
-                });
-              }}
-            >
-              Show {cardPerPage == 3 ? 'more' : 'less'}
-            </div>
+                  dispatch({
+                    type: 'SET_CARD_PER_PAGE',
+                    payload: newCardPerPage,
+                  });
+                }}
+              >
+                Show {cardPerPage == 3 ? 'more' : 'less'}
+              </div>
+            )}
             <Pagination
               className="section-merchs__pagination"
               activePageIndex={activePageIndex}

@@ -178,7 +178,7 @@ const Tours = () => {
       <div className="section-tours__tour-container">
         {loading ? (
           'Loading... 🚀'
-        ) : tours.length > 0 && freeMerchs.length === tours.length ? (
+        ) : tours.length > 0 ? (
           tours.map((tour, index) => {
             return (
               <TourCard
@@ -199,22 +199,27 @@ const Tours = () => {
 
       {searchTerm.length < 1 && !showOnlyFavorite && (
         <>
-          <div
-            className="btn-text show-more-less"
-            onClick={() => {
-              let newCardPerPage = cardPerPage == 3 ? 6 : 3;
+          {Math.ceil(tours.length / cardPerPage) > 1 && (
+            <div
+              className="btn-text show-more-less"
+              onClick={() => {
+                let newCardPerPage = cardPerPage == 3 ? 6 : 3;
 
-              newCardPerPage < cardPerPage &&
-                searchBoxRef.current.scrollIntoView({
-                  behavior: 'smooth',
-                  block: 'start',
+                newCardPerPage < cardPerPage &&
+                  searchBoxRef.current.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                  });
+
+                dispatch({
+                  type: 'SET_CARD_PER_PAGE',
+                  payload: newCardPerPage,
                 });
-
-              dispatch({ type: 'SET_CARD_PER_PAGE', payload: newCardPerPage });
-            }}
-          >
-            Show {cardPerPage == 3 ? 'more' : 'less'}
-          </div>
+              }}
+            >
+              Show {cardPerPage == 3 ? 'more' : 'less'}
+            </div>
+          )}
           <Pagination
             activePageIndex={activePageIndex}
             totalPage={Math.ceil(tours.length / cardPerPage)}
