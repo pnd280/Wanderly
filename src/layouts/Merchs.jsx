@@ -50,7 +50,7 @@ const reducer = (state, action) => {
 };
 
 const Merchs = () => {
-  const { merchs, setMerchs, setMerchFetched } = useContext(AppContext);
+  const { merchs, setMerchs, merchFetched } = useContext(AppContext);
 
   const [cartToggle, setCartToggle] = useState(false);
 
@@ -101,20 +101,19 @@ const Merchs = () => {
     (async () => {
       const fetchedMerchs = await fetchMerchs();
       setMerchs(fetchedMerchs);
-      setMerchFetched(true);
+      merchFetched.current = true;
     })();
-  }, [setMerchFetched, setMerchs]);
-
+  }, [merchFetched, setMerchs]);
 
   useEffect(() => {
     merchs.length > 0 &&
-    (function normalizeActivePageIndex() {
-      activePageIndex > Math.ceil(merchs.length / cardPerPage) &&
-        dispatch({
-          type: 'SET_ACTIVE_PAGE_INDEX',
-          payload: Math.ceil(merchs.length / cardPerPage),
-        });
-    })();
+      (function normalizeActivePageIndex() {
+        activePageIndex > Math.ceil(merchs.length / cardPerPage) &&
+          dispatch({
+            type: 'SET_ACTIVE_PAGE_INDEX',
+            payload: Math.ceil(merchs.length / cardPerPage),
+          });
+      })();
   }, [activePageIndex, cardPerPage, merchs.length]);
 
   return (

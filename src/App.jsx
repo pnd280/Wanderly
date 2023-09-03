@@ -1,6 +1,6 @@
 import '@styles/App.scss';
 
-import { useState } from 'react';
+import { useRef } from 'react';
 
 import Header from '@/layouts/Header.jsx';
 import Merchs from '@/layouts/Merchs';
@@ -16,12 +16,10 @@ import useArray from './hooks/useArray';
 
 const App = () => {
   const { array: merchs, setArray: setMerchs } = useArray([]);
-  const [merchFetched, setMerchFetched] = useState(false);
+  const merchFetched = useRef(false);
 
   return (
-    <AppContext.Provider
-      value={{ merchs, setMerchs, merchFetched, setMerchFetched }}
-    >
+    <AppContext.Provider value={{ merchs, setMerchs, merchFetched }}>
       <Header />
       <About />
       <Features />

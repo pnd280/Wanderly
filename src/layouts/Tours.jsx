@@ -9,11 +9,10 @@ import {
   useRef,
 } from 'react';
 
-import axios from 'axios';
-
 import AppContext from '@/context/AppContext';
 import useArray from '@/hooks/useArray';
 import useArrayLocalStorage from '@/hooks/useArrayLocalStorage';
+import useFetch from '@/hooks/useFetch';
 import { tours as mockData } from '@/mock-data.js';
 import Pagination from '@components/Pagination';
 import Slider from '@components/Slider';
@@ -77,6 +76,12 @@ const Tours = () => {
     'freeMerchs'
   );
 
+  const {
+    response: fetchedTours,
+    loading,
+    error,
+  } = useFetch('http://127.0.0.1:28000/tours/all');
+
   const [
     { priceToggle, activePageIndex, cardPerPage, searchTerm, showOnlyFavorite },
     dispatch,
@@ -84,28 +89,11 @@ const Tours = () => {
 
   const searchBoxRef = useRef(null);
 
-  const fetchTours = async () => {
-    let fetchedTours = [];
-
-    try {
-      const response = await axios.get('http://127.0.0.1:28000/tours/all');
-      fetchedTours = response.data;
-    } catch (error) {
-      fetchedTours = mockData;
-    }
-
-    return fetchedTours;
-  };
-
   const setFavoriteToggle = useCallback(
     (tourId) => {
       const index = favoriteTours.findIndex((id) => id === tourId);
 
-      if (index > -1) {
-        removeFavoriteTour(index);
-      } else {
-        addFavoriteTour(tourId);
-      }
+      index > -1 ? removeFavoriteTour(index) : addFavoriteTour(tourId);
     },
     [addFavoriteTour, favoriteTours, removeFavoriteTour]
   );
@@ -136,30 +124,27 @@ const Tours = () => {
   ]);
 
   useEffect(() => {
-    (async () => {
-      const fetchedTours = await fetchTours();
-      setTours(fetchedTours);
-    })();
-  }, [setTours]);
+    fetchedTours?.length > 0 && setTours(fetchedTours);
+    error && setTours(mockData);
+  }, [error, fetchedTours, setTours]);
 
   useEffect(() => {
-    if (merchFetched) {
+    merchFetched.current &&
       setFreeMerchs(
         tours.map(() => merchs[Math.floor(Math.random() * merchs.length)].name)
       );
-    }
   }, [merchs, merchFetched, tours, setFreeMerchs]);
 
   // navigate to the last page if the current page is out of range after changing card per page
   useEffect(() => {
     tours.length > 0 &&
-    (function normalizeActivePageIndex() {
-      activePageIndex > Math.ceil(tours.length / cardPerPage) &&
-        dispatch({
-          type: 'SET_ACTIVE_PAGE_INDEX',
-          payload: Math.ceil(tours.length / cardPerPage),
-        });
-    })();
+      (function normalizeActivePageIndex() {
+        activePageIndex > Math.ceil(tours.length / cardPerPage) &&
+          dispatch({
+            type: 'SET_ACTIVE_PAGE_INDEX',
+            payload: Math.ceil(tours.length / cardPerPage),
+          });
+      })();
   }, [activePageIndex, cardPerPage, tours.length]);
 
   return (
@@ -191,7 +176,9 @@ const Tours = () => {
         />
       </div>
       <div className="section-tours__tour-container">
-        {tours.length > 0 ? (
+        {loading ? (
+          'Loading... 🚀'
+        ) : tours.length > 0 && freeMerchs.length === tours.length ? (
           tours.map((tour, index) => {
             return (
               <TourCard
@@ -206,7 +193,7 @@ const Tours = () => {
             );
           })
         ) : (
-          <div>Fetching tours...</div>
+          <div>No tour is available at the moment 🥲</div>
         )}
       </div>
 

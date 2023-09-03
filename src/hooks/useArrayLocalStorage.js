@@ -13,7 +13,7 @@ const useArrayLocalStorage = (key) => {
 
   useEffect(() => {
     setValue(array);
-  }, [array]);
+  }, [array, setValue]);
 
   // because useLocalStorage is synchronous, we can use the value immediately instead of using useEffect
   // useEffect(() => {
