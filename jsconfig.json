@@ -8,6 +8,7 @@
       "@styles/*": ["src/styles/*"],
       "@hooks/*": ["src/hooks/*"],
       "@assets/*": ["src/assets/*"],
+      "@context/*": ["src/context/*"],
     }
   }
 }
