@@ -28,6 +28,7 @@ A minimal Front-end implementation for a **fictional** travel agency. Inspired b
 - [Typeface](https://www.recursive.design)
   - Recursive Sans Casual Static
   - Recursive Mono Casual Static
+- Canva smart mockups
 ---
 
 > [!NOTE]
