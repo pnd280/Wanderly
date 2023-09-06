@@ -1,9 +1,6 @@
 import '@styles/App.scss';
 
-import { useRef } from 'react';
-
-import AppContext from '@/context/AppContext';
-import useArray from '@/hooks/useArray';
+import { AppContextProvider } from '@/context/AppContext';
 import Header from '@/layouts/Header.jsx';
 import Merchs from '@/layouts/Merchs';
 import About from '@layouts/About';
@@ -14,11 +11,8 @@ import Testimonials from '@layouts/Testimonials';
 import Tours from '@layouts/Tours';
 
 const App = () => {
-  const { array: merchs, setArray: setMerchs } = useArray([]);
-  const merchFetched = useRef(false);
-
   return (
-    <AppContext.Provider value={{ merchs, setMerchs, merchFetched }}>
+    <AppContextProvider>
       <Header />
       <About />
       <Features />
@@ -27,7 +21,7 @@ const App = () => {
       <Testimonials />
       <Merchs />
       <Footer />
-    </AppContext.Provider>
+    </AppContextProvider>
   );
 };
 
