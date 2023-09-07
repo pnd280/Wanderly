@@ -14,6 +14,7 @@ import Cart from '@/components/Cart';
 import Portal from '@/components/Portal';
 import AppContext from '@/context/AppContext';
 import useArrayLocalStorage from '@/hooks/useArrayLocalStorage';
+import useDebounce from '@/hooks/useDebounce';
 import useFetch from '@/hooks/useFetch';
 import { merchs as mockData } from '@/mock-data';
 import MerchCard from '@components/MerchCard';
@@ -72,6 +73,8 @@ const Merchs = () => {
     initialState
   );
 
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
   const {
     response: fetchedMerchs,
     loading,
@@ -79,16 +82,16 @@ const Merchs = () => {
   } = useFetch('http://127.0.0.1:28000/merchs/all');
 
   const displayMerchIds = useMemo(() => {
-    return searchTerm.length > 0
+    return debouncedSearchTerm.length > 0
       ? merchs
           .filter((merch) =>
-            merch.name.toLowerCase().includes(searchTerm.toLowerCase())
+            merch.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
           )
           .map((merch) => merch.id)
       : Array.from({ length: cardPerPage }, (_, i) => {
           return 1 + (activePageIndex - 1) * cardPerPage + i;
         });
-  }, [searchTerm, merchs, cardPerPage, activePageIndex]);
+  }, [debouncedSearchTerm, merchs, cardPerPage, activePageIndex]);
 
   useEffect(() => {
     fetchedMerchs?.length > 0 && setMerchs(fetchedMerchs);
@@ -175,7 +178,7 @@ const Merchs = () => {
               ))}
         </div>
 
-        {searchTerm.length < 1 && (
+        {debouncedSearchTerm.length < 1 && (
           <>
             {Math.ceil(merchs.length / cardPerPage) > 1 && (
               <div

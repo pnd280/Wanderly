@@ -12,6 +12,7 @@ import {
 import AppContext from '@/context/AppContext';
 import useArray from '@/hooks/useArray';
 import useArrayLocalStorage from '@/hooks/useArrayLocalStorage';
+import useDebounce from '@/hooks/useDebounce';
 import useFetch from '@/hooks/useFetch';
 import { tours as mockData } from '@/mock-data.js';
 import Pagination from '@components/Pagination';
@@ -87,6 +88,8 @@ const Tours = () => {
     dispatch,
   ] = useReducer(reducer, initialState);
 
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+
   const searchBoxRef = useRef(null);
 
   const setFavoriteToggle = useCallback(
@@ -105,10 +108,10 @@ const Tours = () => {
         .map((tour) => tour.id);
     }
 
-    return searchTerm.length > 0
+    return debouncedSearchTerm.length > 0
       ? tours
           .filter((tour) =>
-            tour.name.toLowerCase().includes(searchTerm.toLowerCase())
+            tour.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
           )
           .map((tour) => tour.id)
       : Array.from({ length: cardPerPage }, (_, i) => {
@@ -116,7 +119,7 @@ const Tours = () => {
         });
   }, [
     showOnlyFavorite,
-    searchTerm,
+    debouncedSearchTerm,
     tours,
     cardPerPage,
     favoriteTours,
@@ -176,6 +179,7 @@ const Tours = () => {
         />
       </div>
       <div className="section-tours__tour-container">
+        {(displayedTours.length < 1 && tours.length > 0) && 'No tour found!'}
         {loading ? (
           'Loading... 🚀'
         ) : tours.length > 0 ? (
@@ -197,7 +201,7 @@ const Tours = () => {
         )}
       </div>
 
-      {searchTerm.length < 1 && !showOnlyFavorite && (
+      {debouncedSearchTerm.length < 1 && !showOnlyFavorite && (
         <>
           {Math.ceil(tours.length / cardPerPage) > 1 && (
             <div
