@@ -1,18 +1,19 @@
 import '@styles/Cart.scss';
 
-import { useMemo } from 'react';
+import {
+  memo,
+  useContext,
+  useMemo,
+} from 'react';
 
-import { PropTypes } from 'prop-types';
 import { ImCross } from 'react-icons/im';
 
+import CartContext from '@/context/CartContext';
 import CartItem from '@components/CartItem.jsx';
 
-const Cart = ({
-  cartItems,
-  cartToggle,
-  handleCartToggle,
-  handleCartItemsChange,
-}) => {
+const Cart = memo(function Cart() {
+  const { cartItems, show, toggleState } = useContext(CartContext);
+
   const totalPrice = useMemo(() => {
     return cartItems.reduce(
       (acc, item) => acc + item.price * (item?.quantity ?? 1),
@@ -21,10 +22,13 @@ const Cart = ({
   }, [cartItems]);
 
   return (
-    <div style={{ display: cartToggle ? 'block' : 'none' }}>
+    <div style={{ display: show ? 'block' : 'none' }}>
       <div className="cart__overlay" />
       <div className="section-cart">
-        <div className="section-cart__close-btn" onClick={handleCartToggle}>
+        <div
+          className="section-cart__close-btn"
+          onClick={toggleState}
+        >
           <ImCross />
         </div>
         {cartItems.length > 0 ? (
@@ -34,7 +38,6 @@ const Cart = ({
                 <CartItem
                   key={index}
                   item={item}
-                  handleCartItemsChange={handleCartItemsChange}
                   itemIndex={index}
                 />
               ))}
@@ -42,7 +45,7 @@ const Cart = ({
             <div className="cart__total">
               <div className="cart__total-price">
                 <span className="cart__total-text">Total: </span>
-                {totalPrice}$
+                ${totalPrice}
               </div>
 
               <div className="cart__total-btn btn">Checkout</div>
@@ -54,13 +57,6 @@ const Cart = ({
       </div>
     </div>
   );
-};
-
-Cart.propTypes = {
-  cartItems: PropTypes.array.isRequired,
-  cartToggle: PropTypes.bool.isRequired,
-  handleCartToggle: PropTypes.func.isRequired,
-  handleCartItemsChange: PropTypes.object.isRequired,
-};
+});
 
 export default Cart;

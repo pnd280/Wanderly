@@ -5,64 +5,25 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useReducer,
   useRef,
+  useState,
 } from 'react';
 
 import AppContext from '@/context/AppContext';
 import useArray from '@/hooks/useArray';
 import useArrayLocalStorage from '@/hooks/useArrayLocalStorage';
-import useDebounce from '@/hooks/useDebounce';
 import useFetch from '@/hooks/useFetch';
+import usePagination from '@/hooks/usePagination';
 import { tours as mockData } from '@/mock-data.js';
 import Pagination from '@components/Pagination';
 import Slider from '@components/Slider';
 import TourCard from '@components/TourCard';
 
-const initialState = {
-  priceToggle: false,
-  activePageIndex: 1,
-  cardPerPage: 3,
-  searchTerm: '',
-  showOnlyFavorite: false,
-};
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'TOGGLE_PRICE':
-      return {
-        ...state,
-        priceToggle: !state.priceToggle,
-      };
-    case 'SET_ACTIVE_PAGE_INDEX':
-      return state.activePageIndex === action.payload
-        ? state
-        : {
-            ...state,
-            activePageIndex: action.payload,
-          };
-    case 'SET_CARD_PER_PAGE':
-      return {
-        ...state,
-        cardPerPage: action.payload,
-      };
-    case 'SET_SEARCH_TERM':
-      return {
-        ...state,
-        searchTerm: action.payload,
-      };
-    case 'SHOW_ONLY_FAVORITED':
-      return {
-        ...state,
-        showOnlyFavorite: !state.showOnlyFavorite,
-      };
-    default:
-      return state;
-  }
-};
-
 const Tours = () => {
   const { merchs, merchFetched } = useContext(AppContext);
+
+  const [priceToggle, setPriceToggle] = useState(false);
+  const [favoriteToggle, setFavoriteToggle] = useState(false);
 
   const { array: tours, setArray: setTours } = useArray([], 'tours');
 
@@ -84,15 +45,19 @@ const Tours = () => {
   } = useFetch('http://127.0.0.1:28000/tours/all');
 
   const [
-    { priceToggle, activePageIndex, cardPerPage, searchTerm, showOnlyFavorite },
-    dispatch,
-  ] = useReducer(reducer, initialState);
-
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+    {
+      activePageIndex,
+      cardPerPage,
+      searchTerm,
+      debouncedSearchTerm,
+      displayItems: displayTourIds,
+    },
+    { setActivePageIndex, setCardPerPage, setSearchTerm },
+  ] = usePagination(tours);
 
   const searchBoxRef = useRef(null);
 
-  const setFavoriteToggle = useCallback(
+  const toggleFavorite = useCallback(
     (tourId) => {
       const index = favoriteTours.findIndex((id) => id === tourId);
 
@@ -101,30 +66,13 @@ const Tours = () => {
     [addFavoriteTour, favoriteTours, removeFavoriteTour]
   );
 
-  const displayedTours = useMemo(() => {
-    if (showOnlyFavorite) {
+  const favoriteTourIds = useMemo(() => {
+    if (favoriteToggle) {
       return tours
         .filter((tour) => favoriteTours.includes(tour.id))
         .map((tour) => tour.id);
     }
-
-    return debouncedSearchTerm.length > 0
-      ? tours
-          .filter((tour) =>
-            tour.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())
-          )
-          .map((tour) => tour.id)
-      : Array.from({ length: cardPerPage }, (_, i) => {
-          return 1 + (activePageIndex - 1) * cardPerPage + i;
-        });
-  }, [
-    showOnlyFavorite,
-    debouncedSearchTerm,
-    tours,
-    cardPerPage,
-    favoriteTours,
-    activePageIndex,
-  ]);
+  }, [favoriteToggle, tours, favoriteTours]);
 
   useEffect(() => {
     fetchedTours?.length > 0 && setTours(fetchedTours);
@@ -138,18 +86,6 @@ const Tours = () => {
       );
   }, [merchs, merchFetched, tours, setFreeMerchs]);
 
-  // navigate to the last page if the current page is out of range after changing card per page
-  useEffect(() => {
-    tours.length > 0 &&
-      (function normalizeActivePageIndex() {
-        activePageIndex > Math.ceil(tours.length / cardPerPage) &&
-          dispatch({
-            type: 'SET_ACTIVE_PAGE_INDEX',
-            payload: Math.ceil(tours.length / cardPerPage),
-          });
-      })();
-  }, [activePageIndex, cardPerPage, tours.length]);
-
   return (
     <section className="section-tours">
       <h2 className="heading-secondary" id="tours">
@@ -162,24 +98,24 @@ const Tours = () => {
           placeholder="Enter a tour name..."
           value={searchTerm}
           onChange={(e) => {
-            dispatch({ type: 'SET_SEARCH_TERM', payload: e.target.value });
+            setSearchTerm(e.target.value);
           }}
         />
         <Slider
           label="Show price"
           onClick={() => {
-            dispatch({ type: 'TOGGLE_PRICE' });
+            setPriceToggle((state) => !state);
           }}
         />
         <Slider
           label="Favorite list"
           onClick={() => {
-            dispatch({ type: 'SHOW_ONLY_FAVORITED' });
+            setFavoriteToggle((state) => !state);
           }}
         />
       </div>
       <div className="section-tours__tour-container">
-        {(displayedTours.length < 1 && tours.length > 0) && 'No tour found!'}
+        {displayTourIds.length < 1 && tours.length > 0 && 'No tour found!'}
         {loading ? (
           'Loading... 🚀'
         ) : tours.length > 0 ? (
@@ -190,8 +126,11 @@ const Tours = () => {
                 tour={tour}
                 priceToggle={priceToggle}
                 isFavorited={favoriteTours.includes(tour.id)}
-                setFavoriteToggle={setFavoriteToggle}
-                show={displayedTours.includes(tour.id)}
+                toggleFavorite={toggleFavorite}
+                show={(favoriteToggle
+                  ? favoriteTourIds
+                  : displayTourIds
+                ).includes(tour.id)}
                 freeMerch={freeMerchs[index]}
               />
             );
@@ -201,7 +140,7 @@ const Tours = () => {
         )}
       </div>
 
-      {debouncedSearchTerm.length < 1 && !showOnlyFavorite && (
+      {debouncedSearchTerm.length < 1 && !favoriteToggle && (
         <>
           {Math.ceil(tours.length / cardPerPage) > 1 && (
             <div
@@ -215,10 +154,7 @@ const Tours = () => {
                     block: 'start',
                   });
 
-                dispatch({
-                  type: 'SET_CARD_PER_PAGE',
-                  payload: newCardPerPage,
-                });
+                setCardPerPage(newCardPerPage);
               }}
             >
               Show {cardPerPage == 3 ? 'more' : 'less'}
@@ -228,10 +164,7 @@ const Tours = () => {
             activePageIndex={activePageIndex}
             totalPage={Math.ceil(tours.length / cardPerPage)}
             pageChangeHandle={(index) => {
-              dispatch({
-                type: 'SET_ACTIVE_PAGE_INDEX',
-                payload: index + 1,
-              });
+              setActivePageIndex(index + 1);
             }}
             className="section-tours__pagination"
           />

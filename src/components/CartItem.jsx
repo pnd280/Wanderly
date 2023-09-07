@@ -1,5 +1,7 @@
 import '@styles/CartItem.scss';
 
+import { useContext } from 'react';
+
 import { PropTypes } from 'prop-types';
 import {
   HiMinusSm,
@@ -7,13 +9,17 @@ import {
 } from 'react-icons/hi';
 import { RxCrossCircled } from 'react-icons/rx';
 
-const CartItem = ({ item, handleCartItemsChange, itemIndex }) => {
+import CartContext from '@/context/CartContext';
+
+const CartItem = ({ item }) => {
+  const { updateItem } = useContext(CartContext);
+
   return (
     <div className="cart__item">
       <div
         className="cart__item__remove-btn"
         onClick={() => {
-          handleCartItemsChange.removeCartItem(itemIndex);
+          updateItem(item.id, false, item.quantity);
         }}
       >
         <RxCrossCircled />
@@ -30,11 +36,7 @@ const CartItem = ({ item, handleCartItemsChange, itemIndex }) => {
           <div
             className="cart__item-quantity-btn-decrease"
             onClick={() => {
-              item.quantity > 1 &&
-                handleCartItemsChange.updateCartItem(itemIndex, {
-                  ...item,
-                  quantity: (item?.quantity ?? 1) - 1,
-                });
+              updateItem(item.id, false);
             }}
           >
             <HiMinusSm />
@@ -43,10 +45,7 @@ const CartItem = ({ item, handleCartItemsChange, itemIndex }) => {
           <div
             className="cart__item-quantity-btn-increase"
             onClick={() => {
-              handleCartItemsChange.updateCartItem(itemIndex, {
-                ...item,
-                quantity: (item?.quantity ?? 1) + 1,
-              });
+              updateItem(item.id, true);
             }}
           >
             <HiPlusSm />
@@ -59,8 +58,7 @@ const CartItem = ({ item, handleCartItemsChange, itemIndex }) => {
 
 CartItem.propTypes = {
   item: PropTypes.object.isRequired,
-  handleCartItemsChange: PropTypes.object.isRequired,
   itemIndex: PropTypes.number.isRequired,
-}
+};
 
 export default CartItem;

@@ -12,7 +12,7 @@ const TourCard = memo(function TourCard({
   tour,
   priceToggle,
   isFavorited,
-  setFavoriteToggle,
+  toggleFavorite,
   show,
   freeMerch,
 }) {
@@ -30,7 +30,7 @@ const TourCard = memo(function TourCard({
           <div
             className="tour-card__img__favorite"
             onClick={() => {
-              setFavoriteToggle(tour.id);
+              toggleFavorite(tour.id);
             }}
           >
             {isFavorited ? <AiFillHeart /> : <AiOutlineHeart />}
@@ -89,7 +89,7 @@ TourCard.propTypes = {
   tour: PropTypes.object.isRequired,
   priceToggle: PropTypes.bool.isRequired,
   isFavorited: PropTypes.bool.isRequired,
-  setFavoriteToggle: PropTypes.func.isRequired,
+  toggleFavorite: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
   freeMerch: PropTypes.string,
 };
