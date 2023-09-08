@@ -3,7 +3,6 @@ import '@styles/Cart.scss';
 import {
   memo,
   useContext,
-  useMemo,
 } from 'react';
 
 import { ImCross } from 'react-icons/im';
@@ -12,14 +11,7 @@ import CartContext from '@/context/CartContext';
 import CartItem from '@components/CartItem.jsx';
 
 const Cart = memo(function Cart() {
-  const { cartItems, show, toggleState } = useContext(CartContext);
-
-  const totalPrice = useMemo(() => {
-    return cartItems.reduce(
-      (acc, item) => acc + item.price * (item?.quantity ?? 1),
-      0
-    );
-  }, [cartItems]);
+  const { cartItems, show, toggleState, totalPrice } = useContext(CartContext);
 
   return (
     <div style={{ display: show ? 'block' : 'none' }}>

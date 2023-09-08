@@ -9,7 +9,6 @@ import { PropTypes } from 'prop-types';
 const AppContext = createContext({
   merchs: [],
   setMerchs: () => {},
-  merchFetched: false,
 });
 
 export const AppContextProvider = ({ children }) => {

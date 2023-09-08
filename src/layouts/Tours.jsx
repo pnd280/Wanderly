@@ -20,7 +20,7 @@ import Slider from '@components/Slider';
 import TourCard from '@components/TourCard';
 
 const Tours = () => {
-  const { merchs, merchFetched } = useContext(AppContext);
+  const { merchs } = useContext(AppContext);
 
   const [priceToggle, setPriceToggle] = useState(false);
   const [favoriteToggle, setFavoriteToggle] = useState(false);
@@ -80,11 +80,11 @@ const Tours = () => {
   }, [error, fetchedTours, setTours]);
 
   useEffect(() => {
-    merchFetched.current &&
+    (!loading && tours.length > 0) &&
       setFreeMerchs(
         tours.map(() => merchs[Math.floor(Math.random() * merchs.length)].name)
       );
-  }, [merchs, merchFetched, tours, setFreeMerchs]);
+  }, [merchs, tours, setFreeMerchs, loading]);
 
   return (
     <section className="section-tours">

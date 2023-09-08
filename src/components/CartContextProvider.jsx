@@ -86,8 +86,12 @@ const CartContextProvider = ({ children }) => {
       setCartItems(updatedCartItems);
     }
 
-    setTotalAmount(totalAmount + (isIncreased ? 1 : -1));
-    setTotalPrice(totalPrice + quantity * (cartItems[itemIndex]?.price ?? 0));
+    setTotalAmount(totalAmount + (isIncreased ? quantity : -quantity));
+    setTotalPrice(
+      totalPrice +
+        (isIncreased ? quantity : -quantity) *
+          (cartItems[itemIndex]?.price ?? 0)
+    );
   };
 
   const toggleState = () => {

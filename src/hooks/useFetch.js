@@ -19,16 +19,16 @@ const useFetch = (url, options) => {
       try {
         const res = await axios(url, options);
         setResponse(res.data);
-        setLoading(false);
       } catch (error) {
-        setLoading(null);
         setError(error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
-  }, [options, url])
+  }, [options, url]);
 
   return { response, loading, error };
-}
+};
 
 export default useFetch;

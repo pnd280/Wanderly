@@ -18,7 +18,7 @@ import MerchCard from '@components/MerchCard';
 import Pagination from '@components/Pagination';
 
 const Merchs = () => {
-  const { merchs, setMerchs, merchFetched } = useContext(AppContext);
+  const { merchs, setMerchs } = useContext(AppContext);
 
   const { totalAmount, toggleState, addItem } = useContext(CartContext);
 
@@ -42,9 +42,7 @@ const Merchs = () => {
   useEffect(() => {
     fetchedMerchs?.length > 0 && setMerchs(fetchedMerchs);
     error && setMerchs(mockData);
-
-    (fetchedMerchs?.length > 0 || error) && (merchFetched.current = true);
-  }, [merchFetched, setMerchs, error, fetchedMerchs]);
+  }, [setMerchs, error, fetchedMerchs]);
 
   return (
     <>
