@@ -80,7 +80,9 @@ const Tours = () => {
   }, [error, fetchedTours, setTours]);
 
   useEffect(() => {
-    (!loading && tours.length > 0) &&
+    !loading &&
+      tours.length > 0 &&
+      merchs.length > 0 &&
       setFreeMerchs(
         tours.map(() => merchs[Math.floor(Math.random() * merchs.length)].name)
       );
